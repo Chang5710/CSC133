@@ -2,6 +2,7 @@ package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
 import com.mycompany.a3.game.gameWorld.GameObjectCollection;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class NonPlayerCyborg extends Cyborg {
 	
@@ -51,7 +52,7 @@ public class NonPlayerCyborg extends Cyborg {
 	}
 	
 	public void invokeStrategy(GameObjectCollection gameObjects) {
-		curStrategy.setSteeringDirection(this, gameObjects);
+		curStrategy.apply(this, gameObjects);
 	}
 	
 	public String toStringCurStrategy() {
@@ -73,6 +74,18 @@ public class NonPlayerCyborg extends Cyborg {
 				" energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel() +
 				" currStrategy=" + 	toStringCurStrategy()
 				);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -2,6 +2,7 @@ package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
 import com.mycompany.a3.game.gameWorld.GameWorld;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class PlayerCyborg extends Cyborg implements ISteerable{
 	
@@ -87,6 +88,18 @@ public class PlayerCyborg extends Cyborg implements ISteerable{
 				" maxSpeed=" +this.getMaximumSpeed() + "  steeringDegree="+ this.getSteeringDirection() + 
 				" energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel()
 				);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

@@ -1,6 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Drone extends MoveableObject{
 	
@@ -22,6 +23,18 @@ public class Drone extends MoveableObject{
 				" color=" + this.getColorToString() + " heading=" + this.getHeading() +
 				" speed=" + this.getSpeed() + " size=" + this.getSize()
 		);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

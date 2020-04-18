@@ -3,6 +3,7 @@ package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class EnergyStation extends FixedObject{
 	private int capacity;
@@ -36,6 +37,18 @@ public class EnergyStation extends FixedObject{
 				"EnergyStation: loc=" + Math.round(this.getX()*10)/10 + "," + Math.round(this.getY()*10)/10+ 
 				" color=" + getColorToString() + " size=" + getSize() + " capacity=" + capacity	
 		);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
