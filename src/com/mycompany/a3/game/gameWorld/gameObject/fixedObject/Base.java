@@ -1,8 +1,11 @@
 package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
+import com.mycompany.a3.game.gameWorld.IDrawable;
 
-public class Base extends FixedObject {
+public class Base extends FixedObject implements IDrawable {
 	private int baseID;
 	
 	//set up Base details information
@@ -27,6 +30,18 @@ public class Base extends FixedObject {
 				"Base: loc=" + getX() +","+getY()+ " color=" + this.getColorToString() +
 				" size=" + getSize() + " seqNum=" + baseID	
 		);
+	}
+
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		  g.setColor(ColorUtil.BLUE);
+		  int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX();
+		  int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
+		  int[] xPoints = { xLoc, (xLoc - 20), (xLoc + 20), xLoc };
+		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30), (yLoc + 30) };
+		  int nPoints = 4;
+		  g.drawPolygon(xPoints, yPoints, nPoints);
+		  g.fillPolygon(xPoints, yPoints, nPoints);
 	}
 
 }

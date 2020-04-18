@@ -1,9 +1,12 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 import com.mycompany.a3.game.gameWorld.GameWorld;
+import com.mycompany.a3.game.gameWorld.IDrawable;
 
-public class PlayerCyborg extends Cyborg implements ISteerable{
+public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
 	private static double initialX=200;
 	private static double initialY=200;
@@ -87,6 +90,15 @@ public class PlayerCyborg extends Cyborg implements ISteerable{
 				" maxSpeed=" +this.getMaximumSpeed() + "  steeringDegree="+ this.getSteeringDirection() + 
 				" energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel()
 				);
+	}
+
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		g.setColor(ColorUtil.YELLOW);
+		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
+		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
+		g.drawRect(x, y, 50, 50);
+		g.fillRect(x, y, 50, 50);
 	}
 	
 

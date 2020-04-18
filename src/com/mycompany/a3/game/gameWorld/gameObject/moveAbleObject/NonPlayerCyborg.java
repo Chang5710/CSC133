@@ -1,9 +1,12 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 import com.mycompany.a3.game.gameWorld.GameObjectCollection;
+import com.mycompany.a3.game.gameWorld.IDrawable;
 
-public class NonPlayerCyborg extends Cyborg {
+public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	
 	private IStrategy curStrategy;
 	private int targetBase;
@@ -73,6 +76,14 @@ public class NonPlayerCyborg extends Cyborg {
 				" energyLevel=" + this.getEnergyLevel() + " damageLevel=" + this.getDamageLevel() +
 				" currStrategy=" + 	toStringCurStrategy()
 				);
+	}
+
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		g.setColor(ColorUtil.BLACK);
+		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
+		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
+		g.drawRect(x, y, 50, 50);
 	}
 
 

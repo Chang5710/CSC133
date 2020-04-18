@@ -61,7 +61,7 @@ public class Game extends Form{
 		gw = GameWorld.getInstance(); //Create observable 
 		gw.init();
 		
-		mv = new MapView(); //create observer 
+		mv = new MapView(gw); //create observer 
 		sv = new ScoreView(gw); //create observer
 		
 		gw.addObserver(mv); //register observer 

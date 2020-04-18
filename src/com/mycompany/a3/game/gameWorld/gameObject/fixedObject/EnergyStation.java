@@ -3,8 +3,11 @@ package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
+import com.mycompany.a3.game.gameWorld.IDrawable;
 
-public class EnergyStation extends FixedObject{
+public class EnergyStation extends FixedObject implements IDrawable{
 	private int capacity;
 	private int size;
 	
@@ -38,5 +41,14 @@ public class EnergyStation extends FixedObject{
 		);
 	}
 	
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+
+		g.setColor(ColorUtil.MAGENTA);
+		int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX() ;
+		int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
+		g.drawArc(xLoc, yLoc, size,size, 0, 360);		
+		g.fillArc(xLoc, yLoc, size,size, 0, 360);
+	}
 
 }
