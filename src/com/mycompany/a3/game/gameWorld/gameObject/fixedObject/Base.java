@@ -34,14 +34,20 @@ public class Base extends FixedObject implements IDrawable {
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		  g.setColor(ColorUtil.BLUE);
+		  g.setColor(this.getColor());
 		  int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX();
 		  int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
 		  int[] xPoints = { xLoc, (xLoc - 20), (xLoc + 20), xLoc };
 		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30), (yLoc + 30) };
 		  int nPoints = 4;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
-		  g.fillPolygon(xPoints, yPoints, nPoints);
+		  //g.fillPolygon(xPoints, yPoints, nPoints);
+		  
+		  g.setColor(ColorUtil.BLUE);
+		  g.drawString(Integer.toString(baseID), 
+				  		(int)Math.round(getX() -10) + pCmpRelPrnt.getX(), 
+				  			(int)Math.round(getY() -10) + pCmpRelPrnt.getY());
+		  
 	}
 
 }
