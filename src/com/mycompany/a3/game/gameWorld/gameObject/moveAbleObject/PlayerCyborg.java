@@ -1,6 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import com.codename1.charts.util.ColorUtil;
+import com.mycompany.a3.game.gameWorld.GameWorld;
 
 public class PlayerCyborg extends Cyborg implements ISteerable{
 	
@@ -8,7 +9,20 @@ public class PlayerCyborg extends Cyborg implements ISteerable{
 	private static double initialY=200;
 	
 	
-	public PlayerCyborg() {
+	
+	//Singleton design pattern 
+	private volatile static PlayerCyborg playerCyborg;
+	public static PlayerCyborg getInstance() {
+		if(playerCyborg == null) {
+			synchronized(GameWorld.class) {
+				if(playerCyborg == null)
+					playerCyborg = new PlayerCyborg();
+			}
+		}
+		return playerCyborg;
+	}
+	
+	private PlayerCyborg() {
 		super(ColorUtil.BLUE,0,0,initialX,initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
 		this.setLife(3);
 		this.setLastBaseReached(1);

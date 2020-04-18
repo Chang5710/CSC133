@@ -8,6 +8,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BoxLayout;
 
+
 public class ScoreView extends Container implements Observer {
 
 	/**
@@ -37,22 +38,22 @@ public class ScoreView extends Container implements Observer {
 		//Lives
 		Label lifeTextLabel = new Label("Lives Left: ");
 		lifeTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		lifeValueLabel = new Label(Integer.toString(gw.cyborg.getLife()));
+		lifeValueLabel = new Label(Integer.toString(gw.getPlayerCyborg().getLife()));
 		
 		//Last Base Reached
 		Label BaseTextLabel = new Label("Player Last Reached: ");
 		BaseTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		LastBaseReachedLabel = new Label(Integer.toString(gw.cyborg.getLastBaseReached()));
+		LastBaseReachedLabel = new Label(Integer.toString(gw.getPlayerCyborg().getLastBaseReached()));
 		
 		//Energy Level
 		Label EnergyLevelTextLabel = new Label("Player Energy Level: ");
 		EnergyLevelTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0, 0, 255));
-		EnergyLevelLabel = new Label(Integer.toString(gw.cyborg.getEnergyLevel()));
+		EnergyLevelLabel = new Label(Integer.toString(gw.getPlayerCyborg().getEnergyLevel()));
 		
 		//Damage Level
 		Label DamageLevelTextLabel = new Label("Player Damage Level: ");
 		DamageLevelTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0, 0, 255));
-		DamageLevelLabel = new Label(Integer.toString(gw.cyborg.getDamageLevel()));
+		DamageLevelLabel = new Label(Integer.toString(gw.getPlayerCyborg().getDamageLevel()));
 		
 		//Sound
 		Label SoundTextLabel = new Label("Sound: ");
@@ -82,10 +83,10 @@ public class ScoreView extends Container implements Observer {
 	public void update(Observable observable, Object data) {
 		GameWorld gw = (GameWorld)data;
 		this.TimeValueLabel.setText(Integer.toString(gw.getGameClock()));
-		this.lifeValueLabel.setText(Integer.toString(gw.cyborg.getLife()));
-		this.LastBaseReachedLabel.setText(Integer.toString(gw.cyborg.getLastBaseReached()));
-		this.EnergyLevelLabel.setText(Integer.toString(gw.cyborg.getEnergyLevel()));
-		this.DamageLevelLabel.setText(Integer.toString(gw.cyborg.getDamageLevel()));
+		this.lifeValueLabel.setText(Integer.toString(gw.getPlayerCyborg().getLife()));
+		this.LastBaseReachedLabel.setText(Integer.toString(gw.getPlayerCyborg().getLastBaseReached()));
+		this.EnergyLevelLabel.setText(Integer.toString(gw.getPlayerCyborg().getEnergyLevel()));
+		this.DamageLevelLabel.setText(Integer.toString(gw.getPlayerCyborg().getDamageLevel()));
 		this.SoundLabel.setText((gw.getSound()));
 		this.repaint();
 	}

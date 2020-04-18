@@ -30,7 +30,7 @@ public class GameWorld extends Observable{
 	private GameObjectCollection gameObjects;
 	private String Sound = "ON";
 	Random rn = new Random();
-	PlayerCyborg cyborg; //to hold player cyborg
+	private PlayerCyborg cyborg; //to hold player cyborg
 	NonPlayerCyborg cyborgNPC; //to hold temporary NPC cyborg
 	EnergyStation energyStation;
 	Base base;
@@ -72,7 +72,7 @@ public class GameWorld extends Observable{
 		gameObjects.add(new Base(2,800,200));
 		gameObjects.add(new Base(3,500,500));
 		gameObjects.add(new Base(4,800,800));
-		gameObjects.add(cyborg = new PlayerCyborg());
+		gameObjects.add(cyborg = PlayerCyborg.getInstance());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
 		cyborgNPC.setStrategy(new BaseStrategy());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
