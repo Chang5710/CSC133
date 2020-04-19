@@ -112,13 +112,7 @@ public class GameWorld extends Observable{
 			GameObject obj = iter.getNext();
 			if(obj instanceof PlayerCyborg) {
 				this.cyborg= (PlayerCyborg)obj;		
-			}else if(obj instanceof NonPlayerCyborg) {
-				this.cyborgNPC = (NonPlayerCyborg) obj;
-				if(cyborgNPC.getCurStrategy() instanceof AttackStrategy) {
-					if( GetDistance(obj,cyborgNPC) <= 5) { 	
-						cyboryCollision();
-					}
-				}
+				
 			}
 		}
 	}
@@ -381,11 +375,12 @@ public class GameWorld extends Observable{
 		
 		}
 		
+		
 		numberOfTurnLeft = 0;
 		numberOfTurnRight = 0;
 		cyborg.setSteeringDirection(0);
 		System.out.println("gameClock increase by 1\n");
-		
+		map();
 		this.setChanged();
 		this.notifyObservers(this);
 	}
@@ -448,9 +443,9 @@ public class GameWorld extends Observable{
 			if(obj instanceof NonPlayerCyborg) {
 				cyborgNPC = (NonPlayerCyborg) obj;
 				if(cyborgNPC.getCurStrategy() instanceof BaseStrategy) {
-					cyborgNPC.setStrategy(new AttackStrategy());
-				}else {// not BaseStrategy must be AttackStrategy
 					cyborgNPC.setStrategy(new BaseStrategy());
+				}else {// not BaseStrategy must be AttackStrategy
+					cyborgNPC.setStrategy(new AttackStrategy());
 				}
 			}
 		}

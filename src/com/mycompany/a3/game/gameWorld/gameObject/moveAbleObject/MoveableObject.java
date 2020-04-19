@@ -60,20 +60,20 @@ public abstract class MoveableObject extends GameObject{
 //			System.out.println("newX : " + newX);
 //			System.out.println("newY : " + newY);
 //		}
-		if(newX>getGameWorldWidth()) {//if object is moving our of x boundary
-			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
-				newX = getGameWorldWidth();
-			else if(this instanceof Drone) {
-				randomized();
-			}
-		}
-		if(newY>getGameWorldHigh()) {//if object is moving our of y boundary
-			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
-				newY = getGameWorldHigh();
-			else if(this instanceof Drone) {
-				randomized();
-			}
-		}
+//		if(newX>getGameWorldWidth()) {//if object is moving our of x boundary
+//			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
+//				newX = getGameWorldWidth();
+//			else if(this instanceof Drone) {
+//				randomized();
+//			}
+//		}
+//		if(newY>getGameWorldHigh()) {//if object is moving our of y boundary
+//			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
+//				newY = getGameWorldHigh();
+//			else if(this instanceof Drone) {
+//				randomized();
+//			}
+//		}
 //		if(this instanceof NonPlayerCyborg && (90-this.heading) < 0) {
 //			setX(newY);
 //			setY(newX);

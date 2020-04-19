@@ -108,6 +108,8 @@ public class AttackStrategy implements IStrategy{
 					npc.setSpeed(30); //set speed to Full speed
 				}
 				
+				return;
+				
 			}
 		}
 		
