@@ -30,6 +30,7 @@ public class GameWorld extends Observable{
 	private int numberOfTurnLeft;
 	private int numberOfTurnRight;
 	private int numberOfBase = 4;
+	private int realTime = 0;
 	private GameObjectCollection gameObjects;
 	private String Sound = "ON";
 	Random rn = new Random();
@@ -45,6 +46,10 @@ public class GameWorld extends Observable{
 	}
 	public void setGameClock(int gameClock) {
 		this.gameClock = gameClock;
+	}
+	
+	public int getRealTime() {
+		return realTime;
 	}
 	
 	public PlayerCyborg getPlayerCyborg() {
@@ -358,7 +363,9 @@ public class GameWorld extends Observable{
 	//game clock has ticked
 	public void tick() {
 		gameClock++;
-				
+		if(gameClock % 50 == 0) {
+			realTime += 1;
+		}
 		//check Energy
 		consumeEnergy(cyborg);
 		
