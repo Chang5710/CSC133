@@ -8,6 +8,7 @@ import com.codename1.ui.CheckBox;
 import com.codename1.ui.Display;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
+import com.mycompany.a3.game.gameWorld.gameObject.ICollider;
 import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
 import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.EnergyStation;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.AttackStrategy;
@@ -93,101 +94,6 @@ public class GameWorld extends Observable{
 		this.notifyObservers(this);
 	}
 	
-	//check if cyborg have enough life to respawn, if end the game
-	public void respawnCyborg(Cyborg cyborgT){ 
-			if(cyborgT instanceof PlayerCyborg) {
-				if(cyborgT.getLife()>1) {
-					Base base = findBase(cyborgT);
-					cyborgT.respawn(base.getX(),base.getY());
-				}else {
-					System.out.println("PlayerCyborg Lose! \n");
-					System.exit(0);				
-			    }
-			}
-	}
-	
-	public void findCyborg() {
-		IIterator iter = gameObjects.getIterator();
-		while(iter.hasNext()) {//update cyborg information on GameWorld
-			GameObject obj = iter.getNext();
-			if(obj instanceof PlayerCyborg) {
-				this.cyborg= (PlayerCyborg)obj;		
-			}else if(obj instanceof NonPlayerCyborg) {
-				this.cyborgNPC = (NonPlayerCyborg) obj;
-				if(cyborgNPC.getCurStrategy() instanceof AttackStrategy) {
-					if( GetDistance(obj,cyborgNPC) <= 5) { 	
-						cyboryCollision();
-					}
-				}
-			}
-		}
-	}
-	
-	//find the last base reached and update the location
-	public Base findBase(Cyborg cyborgT) {;
-		Base base = null;
-		IIterator iter = gameObjects.getIterator();
-		while(iter.hasNext()) {
-			GameObject obj = iter.getNext();
-			if(obj instanceof Base) {
-				base = (Base) obj;
-				if(cyborgT instanceof PlayerCyborg) {
-					if(base.getBaseID()==cyborgT.getLastBaseReached()) {
-						this.base = base;
-						cyborgT.setX(base.getX());
-						cyborgT.setY(base.getY());
-						break;
-					}
-				}else { //check if NPC location
-					cyborgNPC = (NonPlayerCyborg) cyborgT;
-					if(base.getBaseID()==(cyborgNPC).getTargetBase()) {
-						if( GetDistance(obj,cyborgNPC) <= 10) { 	
-							baseCollision(base.getBaseID(),cyborgNPC);
-						}
-					}
-				}
-			}
-		}
-		return base;
-	}
-	
-	public double GetDistance(GameObject obj, NonPlayerCyborg cyborgNPC) {
-		
-		double dx = Math.abs(obj.getX() - cyborgNPC.getX());
-		double dy = Math.abs(obj.getY() - cyborgNPC.getY());
-		double distance = Math.sqrt(dx*dx+dy*dy);
-		return distance;
-	}
-	
-	//check energy level after each move
-	public Boolean checkEnergy(int currEnergy, Cyborg cyborgT){
-		if(currEnergy>0) {
-			return true;
-		}else {
-			System.out.println("You run out of Energy\n");
-			respawnCyborg(cyborgT);
-			return false;
-		}
-	}
-	
-	//check Damage level and change color
-	public Boolean checkDamage(int currDamage, Cyborg cyborgT) {
-		if(currDamage<cyborgT.getMaxDamageLevel()) {
-			if(currDamage>cyborgT.getMaxDamageLevel()*0.3 && currDamage<cyborgT.getMaxDamageLevel()*0.7) {
-				cyborgT.setColor(ColorUtil.rgb(255, 204, 203)); //light red
-			}else if(currDamage>cyborgT.getMaxDamageLevel()*0.7) {
-				cyborgT.setColor(ColorUtil.rgb(255, 64, 64)); //more close to red rgb(255,0,0)
-			}
-			cyborgT.setDamageLevel(currDamage);
-			return true;
-		}
-		else {
-			System.out.println("You Cybory is breaked\n");
-			respawnCyborg(cyborgT);
-			return false;
-		}
-	}
-	
 	//exit the game
 	public void exit() {
 		Display.getInstance().exitApplication();
@@ -228,98 +134,196 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	//when player cyborg collided with another cyborg that cause 2 damage
-	public void cyboryCollision() {
-		System.out.println("Collsion with another cyborg cause 2 damage\n");
-		checkDamage(cyborg.getDamageLevel() + 2, cyborg);	
-		checkDamage(cyborgNPC.getDamageLevel() + 1, cyborgNPC);
-		setNewSpeed(cyborg);
-		setNewSpeed(cyborgNPC);
-		
-		//reset NPC set Heading and SteeringDirection
-		cyborgNPC.setHeading(0);
-		cyborgNPC.setSD(0);
-		cyborgNPC.setSteeringDirection(0);
+	//check if cyborg have enough life to respawn, if end the game
+	public void respawnCyborg(Cyborg cyborgT){ 
+			if(cyborgT instanceof PlayerCyborg) {
+				if(cyborgT.getLife()>1) {
+					Base base = findBase(cyborgT); //find the location of last reached Base
+					cyborgT.respawn(base.getX(),base.getY());
+				}else {
+					System.out.println("PlayerCyborg Lose! \n");
+					System.exit(0);				
+			    }
+			}
+	}
+	
+	public void findCyborg() {
+		IIterator iter = gameObjects.getIterator();
+		while(iter.hasNext()) {//update cyborg information on GameWorld
+			GameObject obj = iter.getNext();
+			if(obj instanceof PlayerCyborg) {
+				this.cyborg= (PlayerCyborg)obj;		
+			}
+		}
+	}
+	
+	//find the last base reached and update the location
+	public Base findBase(Cyborg cyborgT) {;
+		Base base = null;
+		IIterator iter = gameObjects.getIterator();
+		while(iter.hasNext()) {
+			GameObject obj = iter.getNext();
+			if(obj instanceof Base) {
+				base = (Base) obj;
+				if(base.getBaseID()==cyborgT.getLastBaseReached()) {
+					this.base = base;
+					cyborgT.setX(base.getX());
+					cyborgT.setY(base.getY());
+					break;
+				}
+				
+			}
+		}
+		return base;
+	}
+	
+//	public double GetDistance(GameObject obj, NonPlayerCyborg cyborgNPC) {
+//		
+//		double dx = Math.abs(obj.getX() - cyborgNPC.getX());
+//		double dy = Math.abs(obj.getY() - cyborgNPC.getY());
+//		double distance = Math.sqrt(dx*dx+dy*dy);
+//		return distance;
+//	}
+	
+	//check energy level after each move
+	public Boolean checkEnergy(int currEnergy, Cyborg cyborgT){
+		if(currEnergy>0) {
+			return true;
+		}else {
+			System.out.println("You run out of Energy\n");
+			respawnCyborg(cyborgT);
+			return false;
+		}
+	}
+	
+	//check Damage level and change color
+	public Boolean checkDamage(int currDamage, Cyborg cyborgT) {
+		if(currDamage<cyborgT.getMaxDamageLevel()) {
+			if(currDamage>cyborgT.getMaxDamageLevel()*0.3 && currDamage<cyborgT.getMaxDamageLevel()*0.7) {
+				cyborgT.setColor(ColorUtil.rgb(255, 204, 203)); //light red
+			}else if(currDamage>cyborgT.getMaxDamageLevel()*0.7) {
+				cyborgT.setColor(ColorUtil.rgb(255, 64, 64)); //more close to red rgb(255,0,0)
+			}
+			cyborgT.setDamageLevel(currDamage);
+			setNewSpeed(cyborgT); //set New speed after collision
+			return true;
+		}
+		else {
+			System.out.println("You Cybory is breaked\n");
+			respawnCyborg(cyborgT);
+			return false;
+		}
 	}
 	
 	public void setNewSpeed(Cyborg cyborgT){ //update speed after DamageLevel too high
 		double ratio = cyborgT.getDamageLevel() / cyborgT.getMaxDamageLevel();
 		if(ratio != 0) {
 		cyborgT.setSpeed((int)(cyborgT.getSpeed()*ratio)); //set Speed limit needs to be limited by cyborg's damage.
-		checkDamage(cyborgT.getDamageLevel(),cyborgT); //set check Damage Level
 		}
 	}
+	
+
+	
+	//when player cyborg collided with another cyborg that cause 2 damage
+//	public void cyboryCollision() {
+//		System.out.println("Collsion with another cyborg cause 2 damage\n");
+//		checkDamage(cyborg.getDamageLevel() + 2, cyborg);	
+//		checkDamage(cyborgNPC.getDamageLevel() + 1, cyborgNPC);
+////		setNewSpeed(cyborg);
+////		setNewSpeed(cyborgNPC);
+//		
+//		//reset NPC set Heading and SteeringDirection
+//		cyborgNPC.setHeading(0);
+//		cyborgNPC.setSD(0);
+//		cyborgNPC.setSteeringDirection(0);
+//	}
+	
+	
 	
 	//when player cyborg collided with base
-	public void baseCollision(int BaseID,Cyborg cyborgT) {
-		if(cyborgT instanceof PlayerCyborg) {
-			System.out.println("You reach to base " + BaseID + "\n");
-			findBase(cyborg);
-			if(cyborg.getLastBaseReached()+1 ==BaseID) {//check if the base in sequential
-				cyborg.setLastBaseReached(BaseID); //update lastBaseReached
-				cyborgT.setX(base.getX());
-				cyborgT.setY(base.getY());
-				if(BaseID==numberOfBase) {
-					System.out.println("You Won!!! You had reach to the last Base!\n");
-					System.exit(0);
-				}
-			}else {
-				System.out.println("Please collide base in sequential!\n" + 
-								   "The next sequential is " + (cyborg.getLastBaseReached()+1) + "\n");
-			}
-		}else { //when NPC collide with target base
-			cyborgNPC = (NonPlayerCyborg) cyborgT;
-			if(BaseID == numberOfBase) {
-				System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
-				System.exit(0);
-			}else {
-				cyborgNPC.setLastBaseReached(cyborgNPC.getTargetBase());  //update last Base Reached
-				cyborgNPC.setTargetBase(cyborgNPC.getTargetBase()+1); //update new Target Base
-				cyborgNPC.setHeading(0);
-				cyborgNPC.setSD(0);
-				cyborgNPC.setSteeringDirection(0);
-			}
-		}
-	}
+//	public void baseCollision(int BaseID,Cyborg cyborgT) {
+//		if(cyborgT instanceof PlayerCyborg) {
+//			System.out.println("You reach to base " + BaseID + "\n");
+//			findBase(cyborg);
+//			if(cyborg.getLastBaseReached()+1 ==BaseID) {//check if the base in sequential
+//				cyborg.setLastBaseReached(BaseID); //update lastBaseReached
+//				cyborgT.setX(base.getX());
+//				cyborgT.setY(base.getY());
+//				if(BaseID==numberOfBase) {
+//					System.out.println("You Won!!! You had reach to the last Base!\n");
+//					System.exit(0);
+//				}
+//			}else {
+//				System.out.println("Please collide base in sequential!\n" + 
+//								   "The next sequential is " + (cyborg.getLastBaseReached()+1) + "\n");
+//			}
+//		}else { //when NPC collide with target base
+//			cyborgNPC = (NonPlayerCyborg) cyborgT;
+//			if(BaseID == numberOfBase) {
+//				System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
+//				System.exit(0);
+//			}else {
+//				cyborgNPC.setLastBaseReached(cyborgNPC.getTargetBase());  //update last Base Reached
+//				cyborgNPC.setTargetBase(cyborgNPC.getTargetBase()+1); //update new Target Base
+//				cyborgNPC.setHeading(0);
+//				cyborgNPC.setSD(0);
+//				cyborgNPC.setSteeringDirection(0);
+//			}
+//		}
+//	}
 	
 	//when player cyborg collided with EnergSation
-	public void energyStationCollision() {
-		IIterator iter = gameObjects.getIterator();
-		while(iter.hasNext()) {
-			GameObject obj = iter.getNext();
-			if(obj instanceof EnergyStation) {
-				this.energyStation = (EnergyStation) obj;
-				if(energyStation.getCapacity()!=0) {
-					int beforeRuel = cyborg.getEnergyLevel();
-					if(cyborg.getEnergyLevel()+energyStation.getCapacity()<cyborg.getMaxEnergyLevel()) {
-						cyborg.setEnergyLevel(cyborg.getEnergyLevel()+energyStation.getCapacity());
-					}else {
-						cyborg.setEnergyLevel(cyborg.getMaxEnergyLevel()); //over fuel the Energy
+//	public void energyStationCollision() {
+//		IIterator iter = gameObjects.getIterator();
+//		while(iter.hasNext()) {
+//			GameObject obj = iter.getNext();
+//			if(obj instanceof EnergyStation) {
+//				this.energyStation = (EnergyStation) obj;
+//				if(energyStation.getCapacity()!=0) {
+//					int beforeRuel = cyborg.getEnergyLevel();
+//					if(cyborg.getEnergyLevel()+energyStation.getCapacity()<cyborg.getMaxEnergyLevel()) {
+//						cyborg.setEnergyLevel(cyborg.getEnergyLevel()+energyStation.getCapacity());
+//					}else {
+//						cyborg.setEnergyLevel(cyborg.getMaxEnergyLevel()); //over fuel the Energy
+//					}
+//					System.out.println("Collsion with a EnergyStation refuel " + Math.abs(cyborg.getEnergyLevel()-beforeRuel) + " Energy\n");
+//					energyStation.setCapacity(0);
+//					energyStation.setColor(ColorUtil.rgb(162, 255, 159)); //set Empty EnergyStation color to light green
+//					gameObjects.add(new EnergyStation());
+//					break;
+//				}
+//			}
+//		}
+//	}
+	
+	//when player cyborg collided with drone
+//	public void droneCollision() {
+//		System.out.println("Collsion with a Drone cause 1 damage\n");
+//		IIterator iter = gameObjects.getIterator();
+//		while(iter.hasNext()) {
+//			GameObject obj = iter.getNext();
+//			if(obj instanceof Drone) {
+//				checkDamage(cyborg.getDamageLevel()+1,cyborg);
+//				double ratio = cyborg.getDamageLevel() / cyborg.getMaxDamageLevel();
+//				cyborg.setSpeed((int)(cyborg.getSpeed()*ratio)); //set Speed limit needs to be limited by cyborg's damage.
+//				break;
+//			}
+//		}
+//	}
+	
+	//if NPC's Energy running low add some more
+		public void checkNPCEnergy() {
+			IIterator iter = gameObjects.getIterator();
+			while(iter.hasNext()) {
+				GameObject obj = iter.getNext();
+				if(obj instanceof NonPlayerCyborg) {
+					cyborgNPC = (NonPlayerCyborg) obj;
+					if(cyborgNPC.getEnergyLevel()<10) {
+						cyborgNPC.setEnergyLevel(30);
 					}
-					System.out.println("Collsion with a EnergyStation refuel " + Math.abs(cyborg.getEnergyLevel()-beforeRuel) + " Energy\n");
-					energyStation.setCapacity(0);
-					energyStation.setColor(ColorUtil.rgb(162, 255, 159)); //set Empty EnergyStation color to light green
-					gameObjects.add(new EnergyStation());
-					break;
 				}
 			}
 		}
-	}
-	
-	//when player cyborg collided with drone
-	public void droneCollision() {
-		System.out.println("Collsion with a Drone cause 1 damage\n");
-		IIterator iter = gameObjects.getIterator();
-		while(iter.hasNext()) {
-			GameObject obj = iter.getNext();
-			if(obj instanceof Drone) {
-				checkDamage(cyborg.getDamageLevel()+1,cyborg);
-				double ratio = cyborg.getDamageLevel() / cyborg.getMaxDamageLevel();
-				cyborg.setSpeed((int)(cyborg.getSpeed()*ratio)); //set Speed limit needs to be limited by cyborg's damage.
-				break;
-			}
-		}
-	}
 	
 	//check if cyborg have enough Energy for next Tick
 	public void consumeEnergy(Cyborg cyborgT) {
@@ -357,6 +361,7 @@ public class GameWorld extends Observable{
 		//check heading
 		checkHeading(cyborg);
 		
+		//move gameObjects
 		IIterator iter2 = gameObjects.getIterator();
 		while(iter2.hasNext()){
 			GameObject obj = iter2.getNext();
@@ -365,12 +370,12 @@ public class GameWorld extends Observable{
 				if (cyborgNPC.getCurStrategy() instanceof BaseStrategy) {
 					cyborgNPC.invokeStrategy(gameObjects);
 					findBase(cyborgNPC);
-				}else {
-					cyborgNPC.invokeStrategy(gameObjects);
+				}else { //AttackStrategy
+					cyborgNPC.invokeStrategy(gameObjects); 
 					findCyborg();
 				}
 				checkHeading(cyborgNPC);
-				setNewSpeed(cyborgNPC);
+//				setNewSpeed(cyborgNPC);
 				consumeEnergy(cyborgNPC);
 				((NonPlayerCyborg) obj).move();
 			}else if(obj instanceof PlayerCyborg) {
@@ -378,8 +383,10 @@ public class GameWorld extends Observable{
 			}else if(obj instanceof Drone) {
 				((MoveableObject) obj).move();
 			}
-		
 		}
+		
+		checkCollision();
+		
 		
 		numberOfTurnLeft = 0;
 		numberOfTurnRight = 0;
@@ -390,18 +397,48 @@ public class GameWorld extends Observable{
 		this.notifyObservers(this);
 	}
 	
-	//if NPC's Energy running low add some more
-	public void checkNPCEnergy() {
-		IIterator iter = gameObjects.getIterator();
-		while(iter.hasNext()) {
-			GameObject obj = iter.getNext();
-			if(obj instanceof NonPlayerCyborg) {
-				cyborgNPC = (NonPlayerCyborg) obj;
-				if(cyborgNPC.getEnergyLevel()<10) {
-					cyborgNPC.setEnergyLevel(30);
+	//checkCollision
+	private void checkCollision() {
+		IIterator iter3 = gameObjects.getIterator();
+		while(iter3.hasNext()) {
+			ICollider curObj = (ICollider)iter3.getNext();
+			
+			IIterator iter4 = gameObjects.getIterator();
+			while(iter4.hasNext()) {
+				ICollider otherObj = (ICollider) iter4.getNext();
+				if(otherObj != curObj) {
+					if(curObj.collidesWith((GameObject) otherObj)) {
+						curObj.handleCollision((GameObject) otherObj);
+						if(curObj instanceof PlayerCyborg || curObj instanceof NonPlayerCyborg) {
+							if(otherObj instanceof PlayerCyborg || 
+									otherObj instanceof NonPlayerCyborg ||
+									otherObj instanceof Drone) { //if PlayerCyborg or NPC collided PlayerCyborg, NPC or Drone
+								checkDamage(((Cyborg) curObj).getDamageLevel(),(Cyborg) curObj); //set check Damage Level of PlayerCyborg
+							}
+							else if(otherObj instanceof Base) { //if PlayerCyborg or NPC collided with base
+								int BaseID = ((Base) otherObj).getBaseID();
+								curObj.handleCollision((GameObject) otherObj);
+								if(BaseID==numberOfBase) { //check WIN
+									if(curObj instanceof PlayerCyborg) {
+										System.out.println("You Won!!! You had reach to the last Base!\n");
+										System.exit(0);
+									}
+									else {
+										System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
+										System.exit(0);
+									}
+								}
+							}
+							else if(otherObj instanceof EnergyStation) {
+								gameObjects.add(new EnergyStation());
+							}
+						}
+						
+					}
 				}
 			}
 		}
+		
 	}
 	
 	//display player-cyborg state:life, gameClock,last reached base, energy level, and damage  level

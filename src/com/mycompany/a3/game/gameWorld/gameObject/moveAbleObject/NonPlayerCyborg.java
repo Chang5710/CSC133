@@ -5,12 +5,17 @@ import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 import com.mycompany.a3.game.gameWorld.GameObjectCollection;
 import com.mycompany.a3.game.gameWorld.IDrawable;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
+import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
+import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.EnergyStation;
+
 
 public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	
 	private IStrategy curStrategy;
 	private int targetBase;
 	private double SD;
+	private boolean collisionFlag;
 
 	
 
@@ -54,7 +59,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	}
 	
 	public void invokeStrategy(GameObjectCollection gameObjects) {
-		curStrategy.setSteeringDirection(this, gameObjects);
+		curStrategy.apply(this, gameObjects);
 	}
 	
 	public String toStringCurStrategy() {
@@ -79,6 +84,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	}
 
 	@Override
+
 	public void draw(Graphics g, Point pCmpRelPrnt) {
 		g.setColor(ColorUtil.BLACK);
 		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
@@ -86,6 +92,83 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		g.drawRect(x, y, 50, 50);
 
 		g.drawString(Integer.toString(getTargetBase()) , x ,y);
+	}
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		double thisCenterX = this.getX();
+		double thisCenterY = this.getY();
+		
+		double otherCenterX = (otherObject).getX();
+		double otherCenterY = (otherObject).getY();
+		
+		double dx = thisCenterX - otherCenterX;
+		double dy = thisCenterY - otherCenterY;
+		
+		double distBetweenCentersSqr = (dx * dx + dy * dy);
+		
+		// find square of sum of radii
+		int thisRadius= this.getSize() / 2;
+		int otherRadius= (otherObject).getSize() / 2;
+		
+		int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
+		
+		if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+		
+		return result;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		if(otherObject instanceof Drone) {
+			System.out.println("NPC collided with a Drone cause 2 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+2);
+		}
+		else if(otherObject instanceof PlayerCyborg) {
+			System.out.println("NPC collided with PlayerCyborg cause 4 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+4);
+		}
+		else if(otherObject instanceof NonPlayerCyborg) {
+			System.out.println("NPC collided with another NPC cause 4 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+4);
+		}
+		else if(otherObject instanceof Base) {
+			int BaseID = ((Base) otherObject).getBaseID();
+			if(this.getLastBaseReached()+1 == BaseID) {
+				int newBaseID = this.getLastBaseReached()+1;
+				this.setLastBaseReached(newBaseID);
+			}
+		}
+		else if(otherObject instanceof EnergyStation) {
+			if(((EnergyStation) otherObject).getCapacity()!=0) {
+				int beforeRuel = this.getEnergyLevel();
+				if(this.getEnergyLevel()+((EnergyStation) otherObject).getCapacity()<this.getMaxEnergyLevel()) {
+					this.setEnergyLevel(this.getEnergyLevel()+((EnergyStation) otherObject).getCapacity());
+				}else {
+					this.setEnergyLevel(this.getMaxEnergyLevel()); //over fuel the Energy
+				}
+				System.out.println("NPC collided with a EnergyStation refuel " + Math.abs(this.getEnergyLevel()-beforeRuel) + " Energy\n");
+			}
+		}
+		this.setHeading(0);
+		this.setSD(0);
+		this.setSteeringDirection(0);
+		this.setCollisionFlag();
+		otherObject.setCollisionFlag();
+	}
+	
+	@Override
+	public void setCollisionFlag() {
+		// TODO Auto-generated method stub
+		collisionFlag = true;
+		
+	}
+
+	@Override
+	public boolean getCollisionFlag() {
+		// TODO Auto-generated method stub
+		return collisionFlag;
 	}
 
 
