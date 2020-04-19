@@ -13,10 +13,6 @@ public class BaseStrategy implements IStrategy {
 
 
 	@Override
-	public void apply(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
-		setSteeringDirection(npc,gameObjects);
-	}
-	
 	public void setSteeringDirection(NonPlayerCyborg npc , GameObjectCollection gameObjects) {
 		IIterator iter = gameObjects.getIterator();
 		while(iter.hasNext()) { //find the Target Base

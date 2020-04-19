@@ -5,7 +5,7 @@ import java.util.Random;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.geom.Point2D;
 
-public abstract class GameObject implements ICollider{
+public abstract class GameObject {
 	
 	private int color;
 	private int size;
