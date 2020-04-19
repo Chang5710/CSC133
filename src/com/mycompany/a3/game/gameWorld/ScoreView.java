@@ -33,7 +33,7 @@ public class ScoreView extends Container implements Observer {
 		//Time 
 		Label TimeTextLabel = new Label("Time: ");
 		TimeTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		TimeValueLabel = new Label(Integer.toString(gw.getGameClock()));
+		TimeValueLabel = new Label("     ");
 		
 		//Lives
 		Label lifeTextLabel = new Label("Lives Left: ");
@@ -82,7 +82,7 @@ public class ScoreView extends Container implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		GameWorld gw = (GameWorld)data;
-		this.TimeValueLabel.setText(Integer.toString(gw.getGameClock()));
+		this.TimeValueLabel.setText(Integer.toString(gw.getRealTime()));
 		this.lifeValueLabel.setText(Integer.toString(gw.getPlayerCyborg().getLife()));
 		this.LastBaseReachedLabel.setText(Integer.toString(gw.getPlayerCyborg().getLastBaseReached()));
 		this.EnergyLevelLabel.setText(Integer.toString(gw.getPlayerCyborg().getEnergyLevel()));
