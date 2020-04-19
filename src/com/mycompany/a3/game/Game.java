@@ -191,6 +191,7 @@ public class Game extends Form implements Runnable{
 		 CheatButton = makePretty(CheatButton);
 		 cmdCheat = new CommandCheatMod(gw);
 	 	 CheatButton.setCommand(cmdCheat);
+	 	 titleBar.addCommandToSideMenu(cmdCheat);
 		 
 		 cmdExit = new CommandExit(gw);
 		 titleBar.addCommandToSideMenu(cmdExit);
