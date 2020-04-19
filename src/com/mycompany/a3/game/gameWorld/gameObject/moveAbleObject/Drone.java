@@ -4,6 +4,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 import com.mycompany.a3.game.gameWorld.IDrawable;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Drone extends MoveableObject implements IDrawable{
 	
@@ -36,6 +37,38 @@ public class Drone extends MoveableObject implements IDrawable{
 		  int[] yPoints = { (y + 30), (y - 30), (y- 30), (y + 30) };
 		  int nPoints = 3;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		double thisCenterX = this.getX();
+		double thisCenterY = this.getY();
+
+		double otherCenterX = (otherObject).getX();
+		double otherCenterY = (otherObject).getY();
+
+		double dx = thisCenterX - otherCenterX;
+		double dy = thisCenterY - otherCenterY;
+
+		double distBetweenCentersSqr = (dx * dx + dy * dy);
+
+		// find square of sum of radii
+		int thisRadius= this.getSize() / 2;
+		int otherRadius= (otherObject).getSize() / 2;
+
+		int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
+
+		if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+
+		return result;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
