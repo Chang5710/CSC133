@@ -4,5 +4,6 @@
 /A3Prj/dist/
 /A3Prj/bin/
 A2Prj.jar
-/build
+/builds
 /dists
+.DS_Store

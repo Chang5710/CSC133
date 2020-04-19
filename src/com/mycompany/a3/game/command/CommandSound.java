@@ -14,6 +14,10 @@ public class CommandSound extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.Sound(e);
+		if(((CheckBox)e.getComponent()).isSelected()) {
+			gw.setSound("ON");
+		}else {
+			gw.setSound("OFF");
+		}
 	}
 }

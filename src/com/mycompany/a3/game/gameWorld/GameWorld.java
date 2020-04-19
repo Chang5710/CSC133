@@ -19,6 +19,7 @@ import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.IStrategy;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.MoveableObject;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.NonPlayerCyborg;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.PlayerCyborg;
+import com.mycompany.a3.game.sound.BGSound;
 
 public class GameWorld extends Observable{
 	
@@ -39,6 +40,10 @@ public class GameWorld extends Observable{
 	EnergyStation energyStation;
 	Base base;
 	IStrategy strategy; 
+	
+
+	private BGSound bgm;
+	
 	
 	//setter and getter
 	public int getGameClock() {
@@ -97,9 +102,30 @@ public class GameWorld extends Observable{
 		}
 		this.map();
 		
+		
+		bgm = new BGSound("background.wav");
+		setSound(Sound);
+	
 		this.setChanged();
 		this.notifyObservers(this);
 	}
+	
+	public void setSound(String sound) {
+		this.Sound = sound;
+		if(Sound == "ON") {
+			bgm.play();
+		}else {
+			bgm.pause();
+		}
+		this.setChanged();
+		this.notifyObservers(this);
+	}
+	
+	public String getSound() {
+		return Sound;
+	}
+	
+
 	
 	public static int getGameHeight() {
 		return gameHeight; 
@@ -485,21 +511,7 @@ public class GameWorld extends Observable{
 		System.out.println("\n");
 	}
 	
-	//Sound on/off
-	public void Sound(ActionEvent e) {
-		if(((CheckBox)e.getComponent()).isSelected()) {
-			Sound = "OFF";
-		}else {
-			Sound = "ON";
-		}
-	}
-	
-	public String getSound() {
-		return Sound;
-	}
-	public void setSound(String sound) {
-		Sound = sound;
-	}
+
 	
 	//Change starategy for each NPC
 	public void ChangeStrategies() {

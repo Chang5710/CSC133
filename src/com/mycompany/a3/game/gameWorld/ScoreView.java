@@ -58,7 +58,7 @@ public class ScoreView extends Container implements Observer {
 		//Sound
 		Label SoundTextLabel = new Label("Sound: ");
 		SoundTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		SoundLabel = new Label(gw.getSound());
+		SoundLabel = new Label("ON");
 		
 		
 	
