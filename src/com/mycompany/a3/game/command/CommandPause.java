@@ -4,15 +4,15 @@ import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 
-public class CommandTick extends Command{
-	private GameWorld gw;
+public class CommandPause extends Command{
+private GameWorld gw;
 	
-	public CommandTick(GameWorld gw) {
-		super("Tick");
+	public CommandPause(GameWorld gw) {
+		super("Pause");
 		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.tick();
+		gw.turnRight();
 	}
 }

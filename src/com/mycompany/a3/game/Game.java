@@ -12,9 +12,10 @@ import com.mycompany.a3.game.command.CommandChangeStrategies;
 import com.mycompany.a3.game.command.CommandExit;
 import com.mycompany.a3.game.command.CommandHelpInfo;
 import com.mycompany.a3.game.command.CommandLeftTurn;
+import com.mycompany.a3.game.command.CommandPause;
+import com.mycompany.a3.game.command.CommandPosition;
 import com.mycompany.a3.game.command.CommandRightTurn;
 import com.mycompany.a3.game.command.CommandSound;
-import com.mycompany.a3.game.command.CommandTick;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 import com.mycompany.a3.game.gameWorld.MapView;
 import com.mycompany.a3.game.gameWorld.ScoreView;
@@ -35,12 +36,13 @@ public class Game extends Form implements Runnable{
 	private CommandBrake cmdBrake;
 	private CommandLeftTurn cmdLeftTurn;
 	private CommandRightTurn cmdRightTurn;
-	private CommandTick cmdTick;
 	private CommandExit cmdExit;
 	private CommandChangeStrategies cmdChangeStrategies;
 	private CommandSound cmdSound;
 	private CommandAboutInfo cmdAboutInfo;
 	private CommandHelpInfo cmdHelpInfo;
+	private CommandPosition cmdPosition;
+	private CommandPause cmdPause;
 	
 	
 	private UITimer timer;
@@ -106,13 +108,19 @@ public class Game extends Form implements Runnable{
 		  */
 		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
 		 	
-		 	Button TickButton = new Button("Tick");
-		 	TickButton = makePretty(TickButton);
-		 	cmdTick = new CommandTick(gw);
-		 	TickButton.setCommand(cmdTick);
-		 	addKeyListener('t' , cmdTick);
+		 	Button PositionButton = new Button();
+		 	PositionButton = makePretty(PositionButton);
+		 	cmdPosition = new CommandPosition(gw);
+		 	PositionButton.setCommand(cmdPosition);
+		 	
+		 	Button PauseButton = new Button();
+		 	PauseButton = makePretty(PauseButton);
+		 	cmdPause = new CommandPause(gw);
+		 	PauseButton.setCommand(cmdPause);
+		 			
 
-		 	southContainer.add(TickButton);
+		 	southContainer.add(PositionButton);
+		 	southContainer.add(PauseButton);
 		 	
 		 	Container wrapper = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
 		 	wrapper.getAllStyles().setBorder(Border.createLineBorder(1));

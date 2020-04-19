@@ -510,5 +510,15 @@ public class GameWorld extends Observable{
 			}
 		}
 	}
+	
+	//Posistion
+	public void ChangePosition() {
+		
+	}
+	
+	//Pause
+	public void Pause() {
+		
+	}
 }
  
