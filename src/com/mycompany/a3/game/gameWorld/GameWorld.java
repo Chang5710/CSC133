@@ -8,6 +8,7 @@ import com.codename1.ui.CheckBox;
 import com.codename1.ui.Display;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
+import com.mycompany.a3.game.gameWorld.gameObject.ICollider;
 import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
 import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.EnergyStation;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.AttackStrategy;
