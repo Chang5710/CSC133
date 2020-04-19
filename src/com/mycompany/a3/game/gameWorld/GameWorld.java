@@ -4,9 +4,7 @@ import java.util.Observable;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
-import com.codename1.ui.CheckBox;
 import com.codename1.ui.Display;
-import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 import com.mycompany.a3.game.gameWorld.gameObject.ICollider;
 import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
@@ -20,6 +18,7 @@ import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.MoveableObject;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.NonPlayerCyborg;
 import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.PlayerCyborg;
 import com.mycompany.a3.game.sound.BGSound;
+import com.mycompany.a3.game.sound.Sound;
 
 public class GameWorld extends Observable{
 	
@@ -43,7 +42,9 @@ public class GameWorld extends Observable{
 	
 
 	private BGSound bgm;
-	
+	private Sound crashSound;
+	private Sound chargeSound;
+	private Sound explosionSound;
 	
 	//setter and getter
 	public int getGameClock() {
@@ -88,8 +89,8 @@ public class GameWorld extends Observable{
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
 //		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
 //		cyborgNPC.setStrategy(new BaseStrategy());
-//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
-//		cyborgNPC.setStrategy(new BaseStrategy());
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
+		cyborgNPC.setStrategy(new AttackStrategy());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(100,200));
 		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
@@ -104,6 +105,9 @@ public class GameWorld extends Observable{
 		
 		
 		bgm = new BGSound("background.wav");
+		crashSound = new Sound("crash.wav");
+		chargeSound = new Sound("charge.wav");
+		explosionSound = new Sound("explosion.wav");
 		setSound(Sound);
 	
 		this.setChanged();
@@ -124,9 +128,7 @@ public class GameWorld extends Observable{
 	public String getSound() {
 		return Sound;
 	}
-	
 
-	
 	public static int getGameHeight() {
 		return gameHeight; 
 	}
@@ -218,14 +220,6 @@ public class GameWorld extends Observable{
 		return base;
 	}
 	
-//	public double GetDistance(GameObject obj, NonPlayerCyborg cyborgNPC) {
-//		
-//		double dx = Math.abs(obj.getX() - cyborgNPC.getX());
-//		double dy = Math.abs(obj.getY() - cyborgNPC.getY());
-//		double distance = Math.sqrt(dx*dx+dy*dy);
-//		return distance;
-//	}
-	
 	//check energy level after each move
 	public Boolean checkEnergy(int currEnergy, Cyborg cyborgT){
 		if(currEnergy>0) {
@@ -239,12 +233,6 @@ public class GameWorld extends Observable{
 	
 	//check Damage level and change color
 	public Boolean checkDamage(int currDamage, Cyborg cyborgT) {
-		
-		//testing
-		if(cyborgT instanceof PlayerCyborg) {
-			System.out.println();
-			int foo = cyborgT.getMaxDamageLevel();
-		}
 		
 		if(currDamage<cyborgT.getMaxDamageLevel()) {
 			if(currDamage>cyborgT.getMaxDamageLevel()*0.3 && currDamage<cyborgT.getMaxDamageLevel()*0.7) {
@@ -267,20 +255,6 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	//when player cyborg collided with another cyborg that cause 2 damage
-//	public void cyboryCollision() {
-//		System.out.println("Collsion with another cyborg cause 2 damage\n");
-//		checkDamage(cyborg.getDamageLevel() + 2, cyborg);	
-//		checkDamage(cyborgNPC.getDamageLevel() + 1, cyborgNPC);
-//		setNewSpeed(cyborg);
-//		setNewSpeed(cyborgNPC);
-//		
-//		//reset NPC set Heading and SteeringDirection
-//		cyborgNPC.setHeading(0);
-//		cyborgNPC.setSD(0);
-//		cyborgNPC.setSteeringDirection(0);
-//	}
-	
 	public void setNewSpeed(Cyborg cyborgT){ //update speed after DamageLevel too high
 		double ratio = cyborgT.getDamageLevel() / cyborgT.getMaxDamageLevel();
 		if(ratio != 0) {
@@ -288,77 +262,6 @@ public class GameWorld extends Observable{
 		checkDamage(cyborgT.getDamageLevel(),cyborgT); //set check Damage Level
 		}
 	}
-	
-	//when player cyborg collided with base
-//	public void baseCollision(int BaseID,Cyborg cyborgT) {
-//		if(cyborgT instanceof PlayerCyborg) {
-//			System.out.println("You reach to base " + BaseID + "\n");
-//			findBase(cyborg);
-//			if(cyborg.getLastBaseReached()+1 ==BaseID) {//check if the base in sequential
-//				cyborg.setLastBaseReached(BaseID); //update lastBaseReached
-//				cyborgT.setX(base.getX());
-//				cyborgT.setY(base.getY());
-//				if(BaseID==numberOfBase) {
-//					System.out.println("You Won!!! You had reach to the last Base!\n");
-//					System.exit(0);
-//				}
-//			}else {
-//				System.out.println("Please collide base in sequential!\n" + 
-//								   "The next sequential is " + (cyborg.getLastBaseReached()+1) + "\n");
-//			}
-//		}else { //when NPC collide with target base
-//			cyborgNPC = (NonPlayerCyborg) cyborgT;
-//			if(BaseID == numberOfBase) {
-//				System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
-//				System.exit(0);
-//			}else {
-//				cyborgNPC.setLastBaseReached(cyborgNPC.getTargetBase());  //update last Base Reached
-//				cyborgNPC.setTargetBase(cyborgNPC.getTargetBase()+1); //update new Target Base
-//				cyborgNPC.setHeading(0);
-//				cyborgNPC.setSD(0);
-//				cyborgNPC.setSteeringDirection(0);
-//			}
-//		}
-//	}
-	
-	//when player cyborg collided with EnergSation
-//	public void energyStationCollision() {
-//		IIterator iter = gameObjects.getIterator();
-//		while(iter.hasNext()) {
-//			GameObject obj = iter.getNext();
-//			if(obj instanceof EnergyStation) {
-//				this.energyStation = (EnergyStation) obj;
-//				if(energyStation.getCapacity()!=0) {
-//					int beforeRuel = cyborg.getEnergyLevel();
-//					if(cyborg.getEnergyLevel()+energyStation.getCapacity()<cyborg.getMaxEnergyLevel()) {
-//						cyborg.setEnergyLevel(cyborg.getEnergyLevel()+energyStation.getCapacity());
-//					}else {
-//						cyborg.setEnergyLevel(cyborg.getMaxEnergyLevel()); //over fuel the Energy
-//					}
-//					System.out.println("Collsion with a EnergyStation refuel " + Math.abs(cyborg.getEnergyLevel()-beforeRuel) + " Energy\n");
-//					energyStation.setCapacity(0);
-//					energyStation.setColor(ColorUtil.rgb(162, 255, 159)); //set Empty EnergyStation color to light green
-//					gameObjects.add(new EnergyStation());
-//					break;
-//				}
-//			}
-//		}
-//	}
-	
-	//when player cyborg collided with drone
-//	public void droneCollision() {
-//		System.out.println("Collsion with a Drone cause 1 damage\n");
-//		IIterator iter = gameObjects.getIterator();
-//		while(iter.hasNext()) {
-//			GameObject obj = iter.getNext();
-//			if(obj instanceof Drone) {
-//				checkDamage(cyborg.getDamageLevel()+1,cyborg);
-//				double ratio = cyborg.getDamageLevel() / cyborg.getMaxDamageLevel();
-//				cyborg.setSpeed((int)(cyborg.getSpeed()*ratio)); //set Speed limit needs to be limited by cyborg's damage.
-//				break;
-//			}
-//		}
-//	}
 	
 	//check if cyborg have enough Energy for next Tick
 	public void consumeEnergy(Cyborg cyborgT) {
@@ -450,6 +353,8 @@ public class GameWorld extends Observable{
 										otherObj instanceof NonPlayerCyborg ||
 										otherObj instanceof Drone) { //if PlayerCyborg or NPC collided PlayerCyborg, NPC or Drone
 									checkDamage(((Cyborg) curObj).getDamageLevel(),(Cyborg) curObj); //set check Damage Level of PlayerCyborg
+									if(Sound == "ON")
+										crashSound.play();
 								}
 								else if(otherObj instanceof Base) { //if PlayerCyborg or NPC collided with base
 									curObj.handleCollision((GameObject) otherObj);
@@ -467,6 +372,9 @@ public class GameWorld extends Observable{
 								else if(otherObj instanceof EnergyStation) {
 									if(((EnergyStation) otherObj).getCapacity()!=0)
 										gameObjects.add(new EnergyStation());
+										if(Sound == "ON")
+											chargeSound.play();
+										
 								}
 							}
 

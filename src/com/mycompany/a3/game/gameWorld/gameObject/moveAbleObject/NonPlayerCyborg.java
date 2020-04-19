@@ -89,7 +89,12 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		g.drawRect(x, y, this.getSize(), this.getSize(),3);
 		
 		// show NPC's Target Base
-		g.drawString(Integer.toString(getTargetBase()) , x ,y);
+		
+		if(curStrategy instanceof AttackStrategy) {
+			g.drawString(Integer.toString(getSpeed()), x, y);
+		}else {
+			g.drawString(Integer.toString(getTargetBase()) , x ,y);
+		}
 	}
 
 	@Override
@@ -122,16 +127,28 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		if(otherObject instanceof Drone) {
-			System.out.println("NPC collided with a Drone cause 2 damage\n");
-			this.setDamageLevel(this.getDamageLevel()+2);
+			if(getDamageLevel()+2< getMaxDamageLevel()) {
+				System.out.println("NPC collided with a Drone cause 2 damage\n");
+				this.setDamageLevel(this.getDamageLevel()+2);
+			}else {
+				this.setDamageLevel(80);
+			}
 		}
 		else if(otherObject instanceof PlayerCyborg) {
-			System.out.println("NPC collided with PlayerCyborg cause 4 damage\n");
-			this.setDamageLevel(this.getDamageLevel()+4);
+			if(getDamageLevel()+4< getMaxDamageLevel()) {
+				System.out.println("NPC collided with PlayerCyborg cause 4 damage\n");
+				this.setDamageLevel(this.getDamageLevel()+4);
+			}else {
+				this.setDamageLevel(80);
+			}
 		}
 		else if(otherObject instanceof NonPlayerCyborg) {
-			System.out.println("NPC collided with another NPC cause 4 damage\n");
-			this.setDamageLevel(this.getDamageLevel()+4);
+			if(getDamageLevel()+4< getMaxDamageLevel()) {
+				System.out.println("NPC collided with another NPC cause 4 damage\n");
+				this.setDamageLevel(this.getDamageLevel()+4);
+			}else {
+				this.setDamageLevel(80);
+			}
 		}
 		else if(otherObject instanceof Base) {
 			int BaseID = ((Base) otherObject).getBaseID();

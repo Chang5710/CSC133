@@ -1,10 +1,11 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
+import java.util.Random;
+
 import com.codename1.util.MathUtil;
 import com.mycompany.a3.game.gameWorld.GameObjectCollection;
 import com.mycompany.a3.game.gameWorld.IIterator;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
-import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
 
 public class AttackStrategy implements IStrategy{
 	
@@ -103,11 +104,13 @@ public class AttackStrategy implements IStrategy{
 				double distance = Math.sqrt(dx*dx+dy*dy); 
 				
 				//when the distance between NPC and PlayerCyborg is least then 40
-				if(distance <= 10) {
-					double speed = Math.sqrt(distance/10); //NPC will keep update speed make sure it run pass the base
-					npc.setSpeed((int)speed);
+				if(distance <= 50 ) {
+					//double speed = Math.sqrt(distance/50); //NPC will keep update speed make sure it run pass the base
+					npc.setSpeed(1);
 				}else {
-					npc.setSpeed(2); //set speed to Full speed
+					Random rn = new Random();
+					int speed= rn.nextInt((15-3)+1)+3;
+					npc.setSpeed(speed); //set speed to Full speed
 				}
 				
 				return;

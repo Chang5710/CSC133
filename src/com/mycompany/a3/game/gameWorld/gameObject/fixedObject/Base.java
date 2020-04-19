@@ -56,8 +56,8 @@ public class Base extends FixedObject implements IDrawable {
 	public boolean collidesWith(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		boolean result = false;
-		double thisCenterX = this.getX()-10;
-		double thisCenterY = this.getY()-30;
+		double thisCenterX = this.getX();
+		double thisCenterY = this.getY();
 
 		double otherCenterX = (otherObject).getX();
 		double otherCenterY = (otherObject).getY();

@@ -37,6 +37,9 @@ public abstract class MoveableObject extends GameObject{
 	}
 	
 	public void setSpeed(int x) {
+		if(this instanceof NonPlayerCyborg) {
+			System.out.println("");
+		}
 		this.speed = x;
 	}
 
