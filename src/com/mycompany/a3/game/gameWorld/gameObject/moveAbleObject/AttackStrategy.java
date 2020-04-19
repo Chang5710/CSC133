@@ -4,7 +4,6 @@ import com.codename1.util.MathUtil;
 import com.mycompany.a3.game.gameWorld.GameObjectCollection;
 import com.mycompany.a3.game.gameWorld.IIterator;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
-import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
 
 public class AttackStrategy implements IStrategy{
 	
@@ -12,6 +11,10 @@ public class AttackStrategy implements IStrategy{
 	private double SD = -99.9;
 
 	@Override
+	public void apply(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
+		setSteeringDirection(npc,gameObjects);
+	}
+	
 	public void setSteeringDirection(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
 		IIterator iter = gameObjects.getIterator();
 		while(iter.hasNext()) {
@@ -22,29 +25,20 @@ public class AttackStrategy implements IStrategy{
 				
 				double newSD; //because use integer to calculate angle off too much, I create another double SteeringDirection to calculate angle
 				int newSteeringDirection;
-				
-				if(dx != 0 && dy != 0) {
-					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
-					newSD = Math.toDegrees(MathUtil.atan(dy/dx));
-				}else {
-					newSteeringDirection = 0;
-					newSD = 0;
-				}
+				newSD = Math.toDegrees(MathUtil.atan(dy/dx));
+				newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
 				if(npc.getY() > obj.getY()) { //NPC on top of Player
 					
 					//if Player is on the right side 
 					if(obj.getX() > npc.getX()) {
 						newSD += 90;
 						newSteeringDirection += 90;
-					}else if(obj.getX()< npc.getX()){//if Player is on the left side
+					}else {//if Player is on the left side
 						 newSD = 90 - newSD;
 						 newSteeringDirection = (int) (90 - newSD);
 						 
 						 newSD = 180 - newSD;
-						 newSteeringDirection = 180 - newSteeringDirection;	 
-					}else{
-						newSD = 180;
-						newSteeringDirection = 180;
+						 newSteeringDirection = 180 - newSteeringDirection;
 					}
 					
 					
@@ -55,28 +49,16 @@ public class AttackStrategy implements IStrategy{
 					if(obj.getX() > npc.getX()) {
 						newSD = 90-newSD;
 						newSteeringDirection = 90 - newSteeringDirection; 
-					}else if(obj.getX() < npc.getX()) {  //Player on left side
+					}else { //Player on left side
 						
 						newSD = -1*(90 - newSD);
 						newSteeringDirection = -1*(90 - newSteeringDirection);
 						
-					}else {
-						newSD = 0;
-						newSteeringDirection = 0;
 					}
-				}else {
-					//SAME LEVEL 
-					
-					//Player on right side 
-					if(obj.getX() > npc.getX()) {
-						newSD = 90;
-						newSteeringDirection = 90;
-					} else if(obj.getX() < npc.getX()) { //Player on left side 
-						newSD = 270;
-						newSteeringDirection = 270;
-					}else {
-						newSD = 0;
-						newSteeringDirection = 0;
+				}else { //NPC is 90 degree above Player or Player is 90 degree above NPC
+					if(npc.getY()< obj.getY()) { //Player on top of NPC
+						newSD = 180;
+						newSteeringDirection = 180;
 					}
 				}
 				
@@ -108,13 +90,12 @@ public class AttackStrategy implements IStrategy{
 					npc.setSpeed(30); //set speed to Full speed
 				}
 				
-				return;
-				
 			}
 		}
 		
 	}
-
-
-
 }
+
+
+
+

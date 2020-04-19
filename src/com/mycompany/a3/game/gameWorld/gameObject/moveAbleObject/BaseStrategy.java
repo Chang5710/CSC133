@@ -11,8 +11,11 @@ public class BaseStrategy implements IStrategy {
 	private int lastSD = -999;
 	private double SD = -99.9;
 
-
 	@Override
+	public void apply(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
+		setSteeringDirection(npc,gameObjects);
+	}
+	
 	public void setSteeringDirection(NonPlayerCyborg npc , GameObjectCollection gameObjects) {
 		IIterator iter = gameObjects.getIterator();
 		while(iter.hasNext()) { //find the Target Base

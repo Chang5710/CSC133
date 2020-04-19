@@ -54,7 +54,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	}
 	
 	public void invokeStrategy(GameObjectCollection gameObjects) {
-		curStrategy.setSteeringDirection(this, gameObjects);
+		curStrategy.apply(this, gameObjects);
 	}
 	
 	public String toStringCurStrategy() {
