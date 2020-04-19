@@ -204,6 +204,10 @@ public class GameWorld extends Observable{
 	
 	//check Damage level and change color
 	public Boolean checkDamage(int currDamage, Cyborg cyborgT) {
+		if(cyborgT instanceof PlayerCyborg) {
+			System.out.println();
+			int foo = cyborgT.getMaxDamageLevel();
+		}
 		if(currDamage<cyborgT.getMaxDamageLevel()) {
 			if(currDamage>cyborgT.getMaxDamageLevel()*0.3 && currDamage<cyborgT.getMaxDamageLevel()*0.7) {
 				cyborgT.setColor(ColorUtil.rgb(255, 204, 203)); //light red
@@ -214,7 +218,9 @@ public class GameWorld extends Observable{
 			return true;
 		}
 		else {
-			System.out.println("You Cybory is breaked\n");
+			if(cyborgT instanceof PlayerCyborg) {
+				System.out.println("You Cybory is breaked\n");
+			}
 			respawnCyborg(cyborgT);
 			return false;
 		}
@@ -403,9 +409,8 @@ public class GameWorld extends Observable{
 									checkDamage(((Cyborg) curObj).getDamageLevel(),(Cyborg) curObj); //set check Damage Level of PlayerCyborg
 								}
 								else if(otherObj instanceof Base) { //if PlayerCyborg or NPC collided with base
-									int BaseID = ((Base) otherObj).getBaseID();
 									curObj.handleCollision((GameObject) otherObj);
-									if(BaseID==numberOfBase) { //check WIN
+									if(((Cyborg) curObj).getLastBaseReached() ==numberOfBase) { //check WIN
 										if(curObj instanceof PlayerCyborg) {
 											System.out.println("You Won!!! You had reach to the last Base!\n");
 											System.exit(0);

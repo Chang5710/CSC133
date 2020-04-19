@@ -30,13 +30,13 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
 	private PlayerCyborg() {
 		super(ColorUtil.BLUE,0,0,initialX,initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
-		this.setLife(3);
+		this.setLife(99999999);
 		this.setLastBaseReached(1);
 		this.setDamageLevel(0);
 		this.setEnergyLevel(99999);
 		this.setSize(40);
-		this.setMaxDamageLevel(99990);
-		this.setMaxEnergyLevel(40);
+		this.setMaxDamageLevel(999999990);
+		this.setMaxEnergyLevel(999999940);
 		this.setSteeringDirection(0);
 	}
 	
@@ -102,6 +102,12 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
 		g.drawRect(x, y, 50, 50);
 		g.fillRect(x, y, 50, 50);
+		
+		double line = Math.toRadians(90- getHeading());
+		double dirX = (Math.cos(line) * 70) + x;
+		double dirY = (Math.sin(line) * 70) + y;
+		g.setColor(ColorUtil.BLACK);
+		g.drawLine(x+25 , y+25 , (int)dirX, (int)dirY);
 	}
 
 	@Override

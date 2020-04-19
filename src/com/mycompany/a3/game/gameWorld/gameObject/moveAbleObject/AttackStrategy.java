@@ -104,10 +104,10 @@ public class AttackStrategy implements IStrategy{
 				
 				//when the distance between NPC and PlayerCyborg is least then 40
 				if(distance <= 40) {
-					double speed = distance/(20*5*2); //keep up with PlayerCyborg within two Tick
+					double speed = Math.sqrt(distance/20); //NPC will keep update speed make sure it run pass the base
 					npc.setSpeed((int)speed);
 				}else {
-					npc.setSpeed(20); //set speed to Full speed
+					npc.setSpeed(1); //set speed to Full speed
 				}
 				
 				return;

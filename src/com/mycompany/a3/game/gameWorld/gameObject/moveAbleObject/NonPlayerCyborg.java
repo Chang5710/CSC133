@@ -18,7 +18,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	
 
 	public NonPlayerCyborg(double initialX, double initialY) {
-		super(ColorUtil.rgb(0, 191, 255), 30, 0, initialX, initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
+		super(ColorUtil.rgb(0, 191, 255), 1/50, 0, initialX, initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
 		this.setLife(3);
 		this.setLastBaseReached(0);
 		this.setDamageLevel(0);
