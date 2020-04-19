@@ -5,6 +5,7 @@ import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Base extends FixedObject {
 	private int baseID;
+	private boolean collisionFlag;
 	
 	//set up Base details information
 	public Base(int baseID, double x,double y) {
@@ -33,13 +34,46 @@ public class Base extends FixedObject {
 	@Override
 	public boolean collidesWith(GameObject otherObject) {
 		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		double thisCenterX = this.getX();
+		double thisCenterY = this.getY();
+		
+		double otherCenterX = (otherObject).getX();
+		double otherCenterY = (otherObject).getY();
+		
+		double dx = thisCenterX - otherCenterX;
+		double dy = thisCenterY - otherCenterY;
+		
+		double distBetweenCentersSqr = (dx * dx + dy * dy);
+		
+		// find square of sum of radii
+		int thisRadius= this.getSize() / 2;
+		int otherRadius= (otherObject).getSize() / 2;
+		
+		int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
+		
+		if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+		
+		return result;
 	}
 
 	@Override
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void setCollisionFlag() {
+		// TODO Auto-generated method stub
+		collisionFlag = true;
+		
+	}
+
+	@Override
+	public boolean getCollisionFlag() {
+		// TODO Auto-generated method stub
+		return collisionFlag;
 	}
 
 }
