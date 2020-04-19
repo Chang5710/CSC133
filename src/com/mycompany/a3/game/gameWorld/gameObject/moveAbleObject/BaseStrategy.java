@@ -112,11 +112,11 @@ public class BaseStrategy implements IStrategy {
 				System.out.println("Distance: " + distance  + " Going to " + ((Base) obj).getBaseID() + "/" + npc.getTargetBase());
 				
 				//when the distance between NPC and base is least then 60
-				if(distance <= 60) {
-					double speed = Math.sqrt(distance/20); //NPC will keep update speed make sure it run pass the base
+				if(distance <= 40) {
+					double speed = Math.sqrt(distance/40); //NPC will keep update speed make sure it run pass the base
 					npc.setSpeed((int)speed);
 				}else {
-					npc.setSpeed(1); //once NPC leave the Last Reached Base set full speed to next Base
+					npc.setSpeed(2); //once NPC leave the Last Reached Base set full speed to next Base
 				}
 				
 				return;

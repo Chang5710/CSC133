@@ -16,10 +16,10 @@ public class EnergyStation extends FixedObject implements IDrawable{
 	
 	//set capacity and size for EnergyStation
 	public EnergyStation() {
-		super(ColorUtil.GREEN);
+		super(ColorUtil.rgb(34, 139, 34));
 		Random rn = new Random();
-		this.capacity = rn.nextInt((40-10)+1)+10; //range between 10 and 40
-		this.size = (int) (this.capacity * 5);
+		this.capacity = rn.nextInt((40-30)+1)+30; //range between 30 and 40
+		this.size = (int) (this.capacity*3);
 		//setSize(this.capacity);
 	}
 	
@@ -47,16 +47,16 @@ public class EnergyStation extends FixedObject implements IDrawable{
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
 
-		g.setColor(ColorUtil.MAGENTA);
+		g.setColor(this.getColor());
 		int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX() ;
 		int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
 		g.drawArc(xLoc, yLoc, size,size, 0, 360);		
-		//g.fillArc(xLoc, yLoc, size,size, 0, 360);
+		g.fillArc(xLoc, yLoc, size,size, 0, 360);
 		
-		g.setColor(ColorUtil.rgb(255, 0, 0));
+		g.setColor(ColorUtil.BLACK);
 		g.drawString(Integer.toString(capacity),
-						xLoc + size/2 - 5,
-						yLoc + size/2 - 5 );
+						xLoc + size/2 - 16,
+						yLoc + size/2 - 16 );
 	}
 
 	@Override

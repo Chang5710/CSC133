@@ -34,7 +34,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setLastBaseReached(1);
 		this.setDamageLevel(0);
 		this.setEnergyLevel(99999);
-		this.setSize(40);
+		this.setSize(50);
 		this.setMaxDamageLevel(999999990);
 		this.setMaxEnergyLevel(999999940);
 		this.setSteeringDirection(0);
@@ -97,12 +97,13 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		g.setColor(ColorUtil.YELLOW);
+		g.setColor(this.getColor());
 		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
-		g.drawRect(x, y, 50, 50);
-		g.fillRect(x, y, 50, 50);
+		g.drawRect(x, y, this.getSize(), this.getSize());
+		g.fillRect(x, y, this.getSize(), this.getSize());
 		
+		//easy to see which direction heading
 		double line = Math.toRadians(90- getHeading());
 		double dirX = (Math.cos(line) * 70) + x;
 		double dirY = (Math.sin(line) * 70) + y;
@@ -125,7 +126,6 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 
 		double distBetweenCentersSqr = (dx * dx + dy * dy);
 
-		// find square of sum of radii
 		int thisRadius= this.getSize() / 2;
 		int otherRadius= (otherObject).getSize() / 2;
 
@@ -140,12 +140,12 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		if(otherObject instanceof Drone) {
-			System.out.println("PlayerCyborg collided with a Drone cause 2 damage\n");
-			this.setDamageLevel(this.getDamageLevel()+2);
+			System.out.println("PlayerCyborg collided with a Drone cause 1 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+1);
 		}
 		else if(otherObject instanceof NonPlayerCyborg) {
-			System.out.println("PlayerCyborg collided with another cyborg cause 4 damage\n");
-			this.setDamageLevel(this.getDamageLevel()+4);
+			System.out.println("PlayerCyborg collided with another cyborg cause 2 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+2);
 		}
 		else if(otherObject instanceof Base) {
 			int BaseID = ((Base) otherObject).getBaseID();

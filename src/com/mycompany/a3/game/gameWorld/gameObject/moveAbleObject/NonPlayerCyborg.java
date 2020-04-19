@@ -18,12 +18,12 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	
 
 	public NonPlayerCyborg(double initialX, double initialY) {
-		super(ColorUtil.rgb(0, 191, 255), 1/50, 0, initialX, initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
+		super(ColorUtil.rgb(0, 191, 255), 0, 0, initialX, initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
 		this.setLife(3);
 		this.setLastBaseReached(0);
 		this.setDamageLevel(0);
 		this.setEnergyLevel(40);
-		this.setSize(40);
+		this.setSize(50);
 		this.setMaxDamageLevel(80);
 		this.setMaxEnergyLevel(80);
 		this.setSteeringDirection(0);
@@ -83,11 +83,12 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		g.setColor(ColorUtil.BLACK);
+		g.setColor(this.getColor());
 		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
-		g.drawRect(x, y, 50, 50);
-
+		g.drawRect(x, y, this.getSize(), this.getSize(),3);
+		
+		// show NPC's Target Base
 		g.drawString(Integer.toString(getTargetBase()) , x ,y);
 	}
 
@@ -106,7 +107,6 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 
 	double distBetweenCentersSqr = (dx * dx + dy * dy);
 
-	// find square of sum of radii
 	int thisRadius= this.getSize() / 2;
 	int otherRadius= (otherObject).getSize() / 2;
 

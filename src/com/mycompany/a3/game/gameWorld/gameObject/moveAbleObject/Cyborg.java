@@ -6,7 +6,7 @@ public abstract class Cyborg extends MoveableObject {
 	private int maximumSpeed = 50;
 	private int energyLevel;
 	private int maxEnergyLevel;
-	private int energyConsumptionRate =2;
+	private int energyConsumptionRate =1;
 	private int damageLevel;
 	private int maxDamageLevel;
 	private int lastBaseReached;

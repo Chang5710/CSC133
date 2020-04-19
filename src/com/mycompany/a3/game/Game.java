@@ -1,10 +1,8 @@
 package com.mycompany.a3.game;
 
-import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Border;
 import com.codename1.ui.util.UITimer;
 import com.mycompany.a3.game.command.CommandAboutInfo;
@@ -20,17 +18,10 @@ import com.mycompany.a3.game.command.CommandTick;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 import com.mycompany.a3.game.gameWorld.MapView;
 import com.mycompany.a3.game.gameWorld.ScoreView;
-import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.events.ActionEvent; 
-import java.lang.String;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
-import com.codename1.ui.Command;
-import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 

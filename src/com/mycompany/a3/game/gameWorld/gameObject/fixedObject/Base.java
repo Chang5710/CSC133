@@ -13,7 +13,7 @@ public class Base extends FixedObject implements IDrawable {
 	public Base(int baseID, double x,double y) {
 		super(ColorUtil.LTGRAY, x, y);
 		this.baseID=baseID;
-		setSize(10);
+		setSize(30);
 		//this.x = x;
 		//this.y = y;
 	}
@@ -38,16 +38,17 @@ public class Base extends FixedObject implements IDrawable {
 		  g.setColor(this.getColor());
 		  int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX();
 		  int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
-		  int[] xPoints = { xLoc, (xLoc - 20), (xLoc + 20), xLoc };
+		  int[] xPoints = { xLoc, (xLoc - 30), (xLoc + 30), xLoc };
 		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30), (yLoc + 30) };
 		  int nPoints = 4;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
-		  //g.fillPolygon(xPoints, yPoints, nPoints);
+		  g.fillPolygon(xPoints, yPoints, nPoints);
 		  
-		  g.setColor(ColorUtil.BLUE);
+		  //draw Base ID on the Base
+		  g.setColor(ColorUtil.BLACK);
 		  g.drawString(Integer.toString(baseID), 
-				  		(int)Math.round(getX() -10) + pCmpRelPrnt.getX(), 
-				  			(int)Math.round(getY() -10) + pCmpRelPrnt.getY());
+				  		(int)Math.round(getX()-10) + pCmpRelPrnt.getX(), 
+				  			(int)Math.round(getY()-30) + pCmpRelPrnt.getY());
 		  
 	}
 
@@ -55,8 +56,8 @@ public class Base extends FixedObject implements IDrawable {
 	public boolean collidesWith(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		boolean result = false;
-		double thisCenterX = this.getX();
-		double thisCenterY = this.getY();
+		double thisCenterX = this.getX()-10;
+		double thisCenterY = this.getY()-30;
 
 		double otherCenterX = (otherObject).getX();
 		double otherCenterY = (otherObject).getY();

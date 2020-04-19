@@ -30,10 +30,10 @@ public class Drone extends MoveableObject implements IDrawable{
 	
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		  g.setColor(ColorUtil.GREEN);
+		  g.setColor(this.getColor());
 		  int x = (int)this.getX() + pCmpRelPrnt.getX();
 		  int y = (int)this.getY() + pCmpRelPrnt.getY();
-		  int[] xPoints = { x, (x - 20), (x + 20), x };
+		  int[] xPoints = { x, (x - 30), (x + 30), x };
 		  int[] yPoints = { (y + 30), (y - 30), (y- 30), (y + 30) };
 		  int nPoints = 3;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
