@@ -84,6 +84,8 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
 		g.drawRect(x, y, 50, 50);
+
+		g.drawString(Integer.toString(getTargetBase()) , x ,y);
 	}
 
 

@@ -75,8 +75,8 @@ public class GameWorld extends Observable{
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
 		cyborgNPC.setStrategy(new BaseStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
-		cyborgNPC.setStrategy(new BaseStrategy());
+//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
+//		cyborgNPC.setStrategy(new BaseStrategy());
 //		gameObjects.add(cyborgNPC = new NonPlayerCyborg(170,200));
 //		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
@@ -358,7 +358,6 @@ public class GameWorld extends Observable{
 		checkHeading(cyborg);
 		
 		IIterator iter2 = gameObjects.getIterator();
-		int c = 0;
 		while(iter2.hasNext()){
 			GameObject obj = iter2.getNext();
 			if(obj instanceof NonPlayerCyborg) {
@@ -366,8 +365,6 @@ public class GameWorld extends Observable{
 				if (cyborgNPC.getCurStrategy() instanceof BaseStrategy) {
 					cyborgNPC.invokeStrategy(gameObjects);
 					findBase(cyborgNPC);
-					c++;
-					System.out.println("c: "+ c);
 				}else {
 					cyborgNPC.invokeStrategy(gameObjects);
 					findCyborg();

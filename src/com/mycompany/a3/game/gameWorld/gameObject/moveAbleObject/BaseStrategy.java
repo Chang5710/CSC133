@@ -24,22 +24,28 @@ public class BaseStrategy implements IStrategy {
 				double newSD; //because use integer to calculate angle off too much, I create another double SteeringDirection to calculate angle
 				int newSteeringDirection;
 				newSD = Math.toDegrees(MathUtil.atan(dy/dx));
-				newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
+				if(dx != 0 && dy != 0) {
+					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
+				}else {
+					newSteeringDirection = 0;
+				}
 				if(npc.getY() > obj.getY()) { //NPC on top of BASE
 					
 					//if base is on the right side 
 					if(obj.getX() > npc.getX()) {
 						newSD += 90;
 						newSteeringDirection += 90;
-					}else {//if base is on the left side
+					}else if(obj.getX() < npc.getX()) {//if base is on the left side
 						 newSD = 90 - newSD;
 						 newSteeringDirection = (int) (90 - newSD);
 						 
 						 newSD = 180 - newSD;
 						 newSteeringDirection = 180 - newSteeringDirection;
+					}else{
+						newSD = 180;
+						newSteeringDirection = 180;
 					}
-					
-					
+						
 				}else if(npc.getY() < obj.getY()) {//BASE on top of NPC 
 					
 						
@@ -47,18 +53,35 @@ public class BaseStrategy implements IStrategy {
 					if(obj.getX() > npc.getX()) {
 						newSD = 90-newSD;
 						newSteeringDirection = 90 - newSteeringDirection; 
-					}else { //Base on left side
-						
+					}else if(obj.getX() < npc.getX()) { //Base on left side
+		
 						newSD = -1*(90 - newSD);
-						newSteeringDirection = -1*(90 - newSteeringDirection);
-						
+						newSteeringDirection = -1*(90 - newSteeringDirection);			
+					} else {
+						newSD = 0;
+						newSteeringDirection = 0;
 					}
-				}else { //NPC is 90 degree above Base or Base is 90 degree above NPC
-					if(npc.getY()< obj.getY()) { //Base on top of NPC
-						newSD = 180;
-						newSteeringDirection = 180;
+				}else {
+					//SAME LEVEL 
+					
+					//Base on right side 
+					if(obj.getX() > npc.getX()) {
+						newSD = 90;
+						newSteeringDirection = 90;
+					} else if(obj.getX() < npc.getX()) { //BASE on left side 
+						newSD = 270;
+						newSteeringDirection = 270;
+					}else {
+						newSD = 0;
+						newSteeringDirection = 0;
 					}
 				}
+//				}else { //NPC is 90 degree above Base or Base is 90 degree above NPC
+//					if(npc.getY()< obj.getY()) { //Base on top of NPC
+//						newSD = 180;
+//						newSteeringDirection = 180;
+//					}
+//				}
 				
 				//first time
 				if(lastSD == -999) {
@@ -80,7 +103,7 @@ public class BaseStrategy implements IStrategy {
 				//calculate the distance
 				double distance = Math.sqrt(dx*dx+dy*dy); 
 				
-				System.out.println("Distance: " + distance);
+				System.out.println("Distance: " + distance  + " Going to " + ((Base) obj).getBaseID() + "/" + npc.getTargetBase());
 				
 				//when the distance between NPC and base is least then 60
 				if(distance <= 60) {
@@ -89,6 +112,8 @@ public class BaseStrategy implements IStrategy {
 				}else {
 					npc.setSpeed(30); //once NPC leave the Last Reached Base set full speed to next Base
 				}
+				
+				return;
 			}
 		}
 	}

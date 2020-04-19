@@ -16,8 +16,8 @@ public class EnergyStation extends FixedObject implements IDrawable{
 		super(ColorUtil.GREEN);
 		Random rn = new Random();
 		this.capacity = rn.nextInt((40-10)+1)+10; //range between 10 and 40
-		this.size = this.capacity;
-		setSize(this.capacity);
+		this.size = (int) (this.capacity * 2);
+		//setSize(this.capacity);
 	}
 	
 	//getter and setter
@@ -48,7 +48,12 @@ public class EnergyStation extends FixedObject implements IDrawable{
 		int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX() ;
 		int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
 		g.drawArc(xLoc, yLoc, size,size, 0, 360);		
-		g.fillArc(xLoc, yLoc, size,size, 0, 360);
+		//g.fillArc(xLoc, yLoc, size,size, 0, 360);
+		
+		g.setColor(ColorUtil.rgb(255, 0, 0));
+		g.drawString(Integer.toString(capacity),
+						xLoc + size/2 - 5,
+						yLoc + size/2 - 5 );
 	}
 
 }

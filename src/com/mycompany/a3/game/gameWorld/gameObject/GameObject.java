@@ -16,7 +16,7 @@ public abstract class GameObject {
 	//update a object in random location 
 	public GameObject(int Color) {
 		Random rn = new Random();
-		double x = rn.nextDouble() * getGameWorldWidth();
+		double x = rn.nextDouble() * gameWorldWidth;
 		double y = rn.nextDouble() * gameWorldHigh;
 		this.location = new Point2D(x,y);
 		this.color = Color;
