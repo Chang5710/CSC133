@@ -75,10 +75,10 @@ public class GameWorld extends Observable{
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
 		cyborgNPC.setStrategy(new BaseStrategy());
-//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
-//		cyborgNPC.setStrategy(new BaseStrategy());
-//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(170,200));
-//		cyborgNPC.setStrategy(new AttackStrategy());
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
+		cyborgNPC.setStrategy(new BaseStrategy());
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(170,200));
+		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
 		for(int i =0;i<numberOfDrone;i++) {
 			gameObjects.add(new Drone());

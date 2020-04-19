@@ -23,11 +23,14 @@ public class BaseStrategy implements IStrategy {
 				
 				double newSD; //because use integer to calculate angle off too much, I create another double SteeringDirection to calculate angle
 				int newSteeringDirection;
-				newSD = Math.toDegrees(MathUtil.atan(dy/dx));
+				
+				
 				if(dx != 0 && dy != 0) {
 					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
+					newSD = Math.toDegrees(MathUtil.atan(dy/dx));
 				}else {
 					newSteeringDirection = 0;
+					newSD = 0;
 				}
 				if(npc.getY() > obj.getY()) { //NPC on top of BASE
 					

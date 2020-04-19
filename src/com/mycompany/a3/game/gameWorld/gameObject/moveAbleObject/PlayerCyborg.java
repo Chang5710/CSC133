@@ -32,7 +32,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setDamageLevel(0);
 		this.setEnergyLevel(99999);
 		this.setSize(40);
-		this.setMaxDamageLevel(40);
+		this.setMaxDamageLevel(99990);
 		this.setMaxEnergyLevel(40);
 		this.setSteeringDirection(0);
 	}
