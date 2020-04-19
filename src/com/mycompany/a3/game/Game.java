@@ -9,6 +9,7 @@ import com.mycompany.a3.game.command.CommandAboutInfo;
 import com.mycompany.a3.game.command.CommandAccelerate;
 import com.mycompany.a3.game.command.CommandBrake;
 import com.mycompany.a3.game.command.CommandChangeStrategies;
+import com.mycompany.a3.game.command.CommandCheatMod;
 import com.mycompany.a3.game.command.CommandExit;
 import com.mycompany.a3.game.command.CommandHelpInfo;
 import com.mycompany.a3.game.command.CommandLeftTurn;
@@ -43,6 +44,7 @@ public class Game extends Form implements Runnable{
 	private CommandHelpInfo cmdHelpInfo;
 	private CommandPosition cmdPosition;
 	private CommandPause cmdPause;
+	private CommandCheatMod cmdCheat;
 	
 	
 	private UITimer timer;
@@ -170,6 +172,8 @@ public class Game extends Form implements Runnable{
 		 // adding Command to the SideMenu
 		 titleBar.addCommandToSideMenu(cmdAccelerate);
 		 
+		 
+		 
 		 CheckBox SoundCB = new CheckBox();
 		 cmdSound = new CommandSound(gw);
 		 SoundCB.setCommand(cmdSound);
@@ -182,8 +186,15 @@ public class Game extends Form implements Runnable{
 		 titleBar.addCommandToSideMenu(cmdAboutInfo);
 		 
 		 titleBar.addCommandToSideMenu(cmdHelpInfo);
+		 
+		 Button CheatButton = new Button();
+		 CheatButton = makePretty(CheatButton);
+		 cmdCheat = new CommandCheatMod(gw);
+	 	 CheatButton.setCommand(cmdCheat);
+		 
 		 cmdExit = new CommandExit(gw);
 		 titleBar.addCommandToSideMenu(cmdExit);
+		 
 		 
 		 /**
 		  * North Container 

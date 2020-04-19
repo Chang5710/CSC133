@@ -527,5 +527,10 @@ public class GameWorld extends Observable{
 	public void Pause() {
 		
 	}
+	
+	//Cheat Mod
+	public void CheatMod() {
+		
+	}
 }
  

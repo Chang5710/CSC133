@@ -13,6 +13,6 @@ private GameWorld gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.turnRight();
+		gw.Pause();
 	}
 }
