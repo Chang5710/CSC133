@@ -11,10 +11,6 @@ import com.mycompany.a3.game.command.CommandAboutInfo;
 import com.mycompany.a3.game.command.CommandAccelerate;
 import com.mycompany.a3.game.command.CommandBrake;
 import com.mycompany.a3.game.command.CommandChangeStrategies;
-import com.mycompany.a3.game.command.CommandCollideBase;
-import com.mycompany.a3.game.command.CommandCollideDrone;
-import com.mycompany.a3.game.command.CommandCollideEnergyStation;
-import com.mycompany.a3.game.command.CommandCollideNPC;
 import com.mycompany.a3.game.command.CommandExit;
 import com.mycompany.a3.game.command.CommandHelpInfo;
 import com.mycompany.a3.game.command.CommandLeftTurn;
@@ -48,10 +44,6 @@ public class Game extends Form implements Runnable{
 	private CommandBrake cmdBrake;
 	private CommandLeftTurn cmdLeftTurn;
 	private CommandRightTurn cmdRightTurn;
-	private CommandCollideNPC cmdCollideNPC;
-	private CommandCollideBase cmdCollideBase;
-	private CommandCollideEnergyStation cmdCollideEnergyStation;
-	private CommandCollideDrone cmdCollideDrone;
 	private CommandTick cmdTick;
 	private CommandExit cmdExit;
 	private CommandChangeStrategies cmdChangeStrategies;
@@ -122,42 +114,14 @@ public class Game extends Form implements Runnable{
 		  * South Container
 		  */
 		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
-		 
-		 	Button CollideNPCButton = new Button("Collide with NPC");
-		 	CollideNPCButton = makePretty(CollideNPCButton);
-		 	cmdCollideNPC = new CommandCollideNPC(gw);
-		 	CollideNPCButton.setCommand(cmdCollideNPC);
-		 	
-		 	Button CollideBaseButton = new Button("Collide with Base");
-		 	CollideBaseButton = makePretty(CollideBaseButton);
-		 	cmdCollideBase = new CommandCollideBase(gw);
-		 	CollideBaseButton.setCommand(cmdCollideBase);
-		 	
-		 	Button CollideEnergyStationButton = new Button("Collide with Energy Station");
-		 	CollideEnergyStationButton = makePretty(CollideEnergyStationButton);
-		 	cmdCollideEnergyStation = new CommandCollideEnergyStation(gw);
-		 	CollideEnergyStationButton.setCommand(cmdCollideEnergyStation);
-		 	addKeyListener('e' , cmdCollideEnergyStation);
-		 	
-		 	Button CollideDroneButton = new Button("Collide with Drone");
-		 	CollideDroneButton = makePretty(CollideDroneButton);
-		 	cmdCollideDrone = new CommandCollideDrone(gw);
-		 	CollideDroneButton.setCommand(cmdCollideDrone);
-		 	addKeyListener('g' , cmdCollideDrone);
 		 	
 		 	Button TickButton = new Button("Tick");
 		 	TickButton = makePretty(TickButton);
 		 	cmdTick = new CommandTick(gw);
 		 	TickButton.setCommand(cmdTick);
 		 	addKeyListener('t' , cmdTick);
-		 	
-		 	southContainer.add(CollideNPCButton);
-		 	southContainer.add(CollideBaseButton);
-		 	southContainer.add(CollideEnergyStationButton);
-		 	southContainer.add(CollideDroneButton);
+
 		 	southContainer.add(TickButton);
-		 	
-		 	
 		 	
 		 	Container wrapper = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
 		 	wrapper.getAllStyles().setBorder(Border.createLineBorder(1));

@@ -12,6 +12,10 @@ public class AttackStrategy implements IStrategy{
 	private double SD = -99.9;
 
 	@Override
+	public void apply(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
+		setSteeringDirection(npc,gameObjects);
+	}
+	
 	public void setSteeringDirection(NonPlayerCyborg npc, GameObjectCollection gameObjects) {
 		IIterator iter = gameObjects.getIterator();
 		while(iter.hasNext()) {
