@@ -18,7 +18,7 @@ public class MapView extends Container implements Observer{
 	static private int mapViewHeight;
 	static private int mapViewWidth;
 	private GameWorld gw = null;
-	
+	static private Point mapViewOrigin;
 	private TextArea ta;
 	
 	/** 
@@ -52,7 +52,8 @@ public class MapView extends Container implements Observer{
 	public static void setMapViewHeight(int height) { mapViewHeight = height; }
 	public static void setMapViewWidth(int width) { mapViewWidth = width; }
 	
-	
+	public void setMapViewOrigin(Point p) { MapView.mapViewOrigin = p; }
+	public static Point getMapViewOrigin() { return mapViewOrigin; }
 	
 	@Override
 	public void update(Observable observable, Object data) {

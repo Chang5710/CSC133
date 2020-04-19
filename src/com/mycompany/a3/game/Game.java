@@ -1,10 +1,12 @@
 package com.mycompany.a3.game;
 
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.geom.Point;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Border;
+import com.codename1.ui.util.UITimer;
 import com.mycompany.a3.game.command.CommandAboutInfo;
 import com.mycompany.a3.game.command.CommandAccelerate;
 import com.mycompany.a3.game.command.CommandBrake;
@@ -36,7 +38,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
 
-public class Game extends Form{
+public class Game extends Form implements Runnable{
 	private GameWorld gw;
 	private MapView mv;
 	private ScoreView sv;
@@ -56,6 +58,9 @@ public class Game extends Form{
 	private CommandSound cmdSound;
 	private CommandAboutInfo cmdAboutInfo;
 	private CommandHelpInfo cmdHelpInfo;
+	
+	
+	private UITimer timer;
 	
 	public Game() {
 		gw = GameWorld.getInstance(); //Create observable 
@@ -229,9 +234,24 @@ public class Game extends Form{
 		  */
 		 add(BorderLayout.CENTER, mv);
 		 
-		 this.show();
+		 
 
+		
+	 
+		this.show();
+		timer = new UITimer(this);
+		timer.schedule(20, true, this);
+		System.out.println("Game GUI Setup Completed with the following stats :");
+		System.out.println("Game World size : "+ GameWorld.getGameHeight() + ","+GameWorld.getGameWidth());
+		System.out.println("Form Content pane size : " + this.getWidth() + "," + this.getHeight());
+		System.out.println("MapView size : " + mv.getWidth() + "," + mv.getHeight());
+		System.out.println("MapView Origin : " + mv.getX() + "," + mv.getY());	
 
+		
+
+		mv.setMapViewOrigin(new Point(mv.getX() , mv.getY()));
+		MapView.setMapViewWidth(mv.getWidth());
+		MapView.setMapViewHeight(mv.getHeight());	
 	}
 	
 
@@ -244,5 +264,12 @@ public class Game extends Form{
 		obj.getAllStyles().setMargin(BOTTOM, 2);
 		obj.getAllStyles().setMargin(LEFT,2);
 		return obj;
+	}
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		gw.tick();
 	}
 }

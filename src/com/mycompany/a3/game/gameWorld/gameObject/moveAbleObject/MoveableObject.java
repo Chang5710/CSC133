@@ -2,6 +2,8 @@ package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import java.util.Random;
 
+import com.codename1.ui.geom.Point2D;
+import com.mycompany.a3.game.gameWorld.MapView;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public abstract class MoveableObject extends GameObject{
@@ -48,39 +50,53 @@ public abstract class MoveableObject extends GameObject{
 
 	//to get new location once the tick is increase
 	public void move() {
-		double radian = Math.toRadians(90-this.heading); //90-heading to get the direction as 0 to the north
-		double newX = this.getX()+ Math.cos(radian) * this.speed;
-		double newY = this.getY()+ Math.sin(radian) * this.speed;
-		
-		//testing
-//		if(this instanceof NonPlayerCyborg) {
-//			System.out.println("Heading : " + this.heading);
-//			System.out.println(" X : " + this.getX() + " dx : " + Math.cos(radian) * this.speed);
-//			System.out.println(" Y : " + this.getY() + " dy : " + Math.sin(radian) * this.speed);
-//			System.out.println("newX : " + newX);
-//			System.out.println("newY : " + newY);
-//		}
-//		if(newX>getGameWorldWidth()) {//if object is moving our of x boundary
-//			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
-//				newX = getGameWorldWidth();
-//			else if(this instanceof Drone) {
-//				randomized();
-//			}
-//		}
-//		if(newY>getGameWorldHigh()) {//if object is moving our of y boundary
-//			if(this instanceof PlayerCyborg || this instanceof NonPlayerCyborg)
-//				newY = getGameWorldHigh();
-//			else if(this instanceof Drone) {
-//				randomized();
-//			}
-//		}
-//		if(this instanceof NonPlayerCyborg && (90-this.heading) < 0) {
-//			setX(newY);
-//			setY(newX);
-//			return;
-//		}
-		setX(newX);
-		setY(newY); //set new Location
+		float newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
+ 		float newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);		
+ 		int offset = this.getSize();
+ 		int border = 2; // See mapview for border size and adjust here.
+ 		
+ 		int orginX = (int)MapView.getMapViewOrigin().getX();
+ 		int orginY = (int)MapView.getMapViewOrigin().getY();
+
+		//Bounce off right wall 
+		if(orginX + newX + offset >=   MapView.getMapViewWidth() + orginX - border
+				&& (heading >= 0 && heading <= 180)) {
+			if(this instanceof NonPlayerCyborg) {
+				System.out.println("Happening");
+			}
+			if(heading == 0 || heading == 180) {
+				setHeading(270);
+			}else {
+				setHeading(360-heading);
+			}
+			System.out.println("Bounced off right wall");
+			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
+	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
+		}
+		//Bounce off left wall 
+		else if(orginX + newX  <= orginX + border) {
+			if(heading == 0 || heading == 180) {
+				setHeading(90);
+			}else {
+				setHeading(360-heading);
+			}
+			System.out.println("Bounded off left wall");
+			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
+	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
+		}
+		//Bounce off bottom wall
+		else if(orginY + newY + offset >= orginY + MapView.getMapViewHeight() - border ) {
+			setHeading((360-heading+180)%360);
+			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
+	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
+		}		
+		else if(orginY + newY   <= orginY + border  ) {
+			setHeading((360-heading+180)%360);
+			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
+	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
+		}
+				
+		this.setLocation(new Point2D(newX,newY));		
 	}
 
 }

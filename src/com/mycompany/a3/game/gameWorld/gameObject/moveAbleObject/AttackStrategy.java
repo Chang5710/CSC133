@@ -27,6 +27,7 @@ public class AttackStrategy implements IStrategy{
 					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
 					newSD = Math.toDegrees(MathUtil.atan(dy/dx));
 				}else {
+					System.out.println("SD set to 0");
 					newSteeringDirection = 0;
 					newSD = 0;
 				}
@@ -37,11 +38,8 @@ public class AttackStrategy implements IStrategy{
 						newSD += 90;
 						newSteeringDirection += 90;
 					}else if(obj.getX()< npc.getX()){//if Player is on the left side
-						 newSD = 90 - newSD;
-						 newSteeringDirection = (int) (90 - newSD);
-						 
-						 newSD = 180 - newSD;
-						 newSteeringDirection = 180 - newSteeringDirection;	 
+						newSD = 270 - newSD;
+						newSteeringDirection = 270 - newSteeringDirection;
 					}else{
 						newSD = 180;
 						newSteeringDirection = 180;
@@ -102,10 +100,10 @@ public class AttackStrategy implements IStrategy{
 				
 				//when the distance between NPC and PlayerCyborg is least then 40
 				if(distance <= 40) {
-					double speed = Math.sqrt(distance/2); //keep up with PlayerCyborg within two Tick
+					double speed = distance/(20*5*2); //keep up with PlayerCyborg within two Tick
 					npc.setSpeed((int)speed);
 				}else {
-					npc.setSpeed(30); //set speed to Full speed
+					npc.setSpeed(20); //set speed to Full speed
 				}
 				
 				return;

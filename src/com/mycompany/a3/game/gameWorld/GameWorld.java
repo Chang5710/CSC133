@@ -21,6 +21,8 @@ import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.PlayerCyborg;
 
 public class GameWorld extends Observable{
 	
+	private static int gameHeight = 1000;
+	private static int gameWidth = 1000;
 	private int gameClock = 0;
 	private int numberOfDrone;
 	private int numberOfEnergyStation;
@@ -73,10 +75,10 @@ public class GameWorld extends Observable{
 		gameObjects.add(new Base(3,500,500));
 		gameObjects.add(new Base(4,800,800));
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
-		cyborgNPC.setStrategy(new BaseStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
-		cyborgNPC.setStrategy(new BaseStrategy());
+//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
+//		cyborgNPC.setStrategy(new BaseStrategy());
+//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
+//		cyborgNPC.setStrategy(new BaseStrategy());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(170,200));
 		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
@@ -93,6 +95,12 @@ public class GameWorld extends Observable{
 		this.notifyObservers(this);
 	}
 	
+	public static int getGameHeight() {
+		return gameHeight; 
+	}
+	public static int getGameWidth() {
+		return gameWidth;
+	}
 	//check if cyborg have enough life to respawn, if end the game
 	public void respawnCyborg(Cyborg cyborgT){ 
 			if(cyborgT instanceof PlayerCyborg) {
@@ -379,8 +387,8 @@ public class GameWorld extends Observable{
 		numberOfTurnLeft = 0;
 		numberOfTurnRight = 0;
 		cyborg.setSteeringDirection(0);
-		System.out.println("gameClock increase by 1\n");
-		map();
+		//System.out.println("gameClock increase by 1\n");
+		//map();
 		this.setChanged();
 		this.notifyObservers(this);
 	}
@@ -443,9 +451,9 @@ public class GameWorld extends Observable{
 			if(obj instanceof NonPlayerCyborg) {
 				cyborgNPC = (NonPlayerCyborg) obj;
 				if(cyborgNPC.getCurStrategy() instanceof BaseStrategy) {
-					cyborgNPC.setStrategy(new BaseStrategy());
-				}else {// not BaseStrategy must be AttackStrategy
 					cyborgNPC.setStrategy(new AttackStrategy());
+				}else {// not BaseStrategy must be AttackStrategy
+					cyborgNPC.setStrategy(new BaseStrategy());
 				}
 			}
 		}
