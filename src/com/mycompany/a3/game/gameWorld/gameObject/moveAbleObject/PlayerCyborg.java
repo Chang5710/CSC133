@@ -5,6 +5,9 @@ import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 import com.mycompany.a3.game.gameWorld.IDrawable;
+import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
+import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.Base;
+import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.EnergyStation;
 
 public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
@@ -53,8 +56,8 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setY(newY);
 		this.setSteeringDirection(90); //90=0 to the north
 		this.setSpeed(0);
-		this.setEnergyLevel(20);
-		this.setDamageLevel(0);
+		this.setEnergyLevel(9999990);
+		this.setDamageLevel(999999);
 		this.setColor(ColorUtil.BLUE);
 		this.setLife(getLife()-1);
 	}
@@ -99,6 +102,67 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
 		g.drawRect(x, y, 50, 50);
 		g.fillRect(x, y, 50, 50);
+	}
+
+	@Override
+	public boolean collidesWith(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		double thisCenterX = this.getX();
+		double thisCenterY = this.getY();
+
+		double otherCenterX = (otherObject).getX();
+		double otherCenterY = (otherObject).getY();
+
+		double dx = thisCenterX - otherCenterX;
+		double dy = thisCenterY - otherCenterY;
+
+		double distBetweenCentersSqr = (dx * dx + dy * dy);
+
+		// find square of sum of radii
+		int thisRadius= this.getSize() / 2;
+		int otherRadius= (otherObject).getSize() / 2;
+
+		int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
+
+		if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+
+		return result;
+	}
+
+	@Override
+	public void handleCollision(GameObject otherObject) {
+		// TODO Auto-generated method stub
+		if(otherObject instanceof Drone) {
+			System.out.println("PlayerCyborg collided with a Drone cause 2 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+2);
+		}
+		else if(otherObject instanceof NonPlayerCyborg) {
+			System.out.println("PlayerCyborg collided with another cyborg cause 4 damage\n");
+			this.setDamageLevel(this.getDamageLevel()+4);
+		}
+		else if(otherObject instanceof Base) {
+			int BaseID = ((Base) otherObject).getBaseID();
+			if(this.getLastBaseReached()+1 == BaseID) {
+				int newBaseID = this.getLastBaseReached()+1;
+				System.out.println("PlayerCyborg reach to base " + newBaseID + "\n");
+				this.setLastBaseReached(newBaseID);
+			}else {
+				System.out.println("Please collide base in sequential!\n" + 
+						   "The next sequential is " + (this.getLastBaseReached()+1) + "\n");
+			}
+		}
+		else if(otherObject instanceof EnergyStation) {
+			if(((EnergyStation) otherObject).getCapacity()!=0) {
+				int beforeRuel = this.getEnergyLevel();
+				if(this.getEnergyLevel()+((EnergyStation) otherObject).getCapacity()<this.getMaxEnergyLevel()) {
+					this.setEnergyLevel(this.getEnergyLevel()+((EnergyStation) otherObject).getCapacity());
+				}else {
+					this.setEnergyLevel(this.getMaxEnergyLevel()); //over fuel the Energy
+				}
+				System.out.println("PlayerCyborg collided with a EnergyStation refuel " + Math.abs(this.getEnergyLevel()-beforeRuel) + " Energy\n");
+			}
+		}
 	}
 	
 
