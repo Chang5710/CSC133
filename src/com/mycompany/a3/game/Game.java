@@ -3,6 +3,7 @@ package com.mycompany.a3.game;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Border;
 import com.codename1.ui.util.UITimer;
 import com.mycompany.a3.game.command.CommandAboutInfo;
@@ -121,12 +122,14 @@ public class Game extends Form implements Runnable{
 		 /**
 		  * South Container
 		  */
-		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+//		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+			 Container southContainer = new Container(new FlowLayout(CENTER)); 
 		 	
 		 	PositionButton = new Button();
 		 	PositionButton = makePretty(PositionButton);
 		 	cmdPosition = new CommandPosition(gw);
 		 	PositionButton.setCommand(cmdPosition);
+		 	PositionButton.setAutoSizeMode(true);
 		 	
 		 	PauseButton = new Button();
 		 	PauseButton = makePretty(PauseButton);
@@ -137,11 +140,11 @@ public class Game extends Form implements Runnable{
 		 	southContainer.add(PositionButton);
 		 	southContainer.add(PauseButton);
 		 	
-		 	Container wrapper = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
-		 	wrapper.getAllStyles().setBorder(Border.createLineBorder(1));
-		 	wrapper.add(CENTER,southContainer);
+//		 	Container wrapper = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+//		 	wrapper.getAllStyles().setBorder(Border.createLineBorder(1));
+//		 	wrapper.add(CENTER,southContainer);
 		 	
-		 	add(BorderLayout.SOUTH,wrapper);
+		 	add(BorderLayout.SOUTH,southContainer);
 		 	
 		 /**
 		  * East Container
@@ -274,7 +277,9 @@ public class Game extends Form implements Runnable{
 		 	titleBar.findCommandComponent(cmdCheat).setEnabled(false);
 			
 			// Let gameworld know game is paused 
-		 	gw.pauseGame(true);
+		 	gw.setPauseGame(true);
+		 	PositionButton.setText("Position : OFF");
+		 	this.revalidate();
 		 	
 		} else {
 			timer.schedule(20, true, this);
@@ -296,6 +301,12 @@ public class Game extends Form implements Runnable{
 		 	PositionButton.setEnabled(false);
 		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(true);
 		 	titleBar.findCommandComponent(cmdCheat).setEnabled(true);
+		 	
+		 	//Restore position command label 
+		 	
+		 	PositionButton.setText("Position");
+		 	gw.setPauseGame(false);
+		 	this.revalidate();
 		}
 	}
 

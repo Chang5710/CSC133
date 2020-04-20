@@ -48,16 +48,7 @@ public class GameWorld extends Observable{
 	private Sound explosionSound;
 	private boolean GamePause;
 	
-//	public void setPositionToggle(boolean flag) {
-//		//Ignore if pause isn't paused
-//		if(GamePause) {
-//			positionToggle = flag;
-//		}
-//	}
-	
-	public boolean getPositionToggle() {
-		return positionToggle;
-	}
+
 	
 	//setter and getter
 	public int getGameClock() {
@@ -475,10 +466,21 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	public void pauseGame(boolean flag) {
+	public void setPauseGame(boolean flag) {
 		GamePause = flag;
+		positionToggle = false;
 	}
 	
+	public boolean getPauseGame() {
+		return GamePause;
+	}
+//	public void setPositionToggle(boolean flag) {
+//			positionToggle = flag;
+//	}
+	
+	public boolean getPositionToggle() {
+		return positionToggle;
+	}
 	
 	//Cheat Mod
 	public void CheatMod() {

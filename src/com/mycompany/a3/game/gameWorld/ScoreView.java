@@ -33,7 +33,7 @@ public class ScoreView extends Container implements Observer {
 		//Time 
 		Label TimeTextLabel = new Label("Time:");
 		TimeTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		TimeValueLabel = new Label("     ");
+		TimeValueLabel = new Label("");
 		
 		//Lives
 		Label lifeTextLabel = new Label("Lives Left:");
@@ -58,7 +58,7 @@ public class ScoreView extends Container implements Observer {
 		//Sound
 		Label SoundTextLabel = new Label("Sound:");
 		SoundTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		SoundLabel = new Label("          ");
+		SoundLabel = new Label("");
 		
 		
 	
@@ -88,6 +88,7 @@ public class ScoreView extends Container implements Observer {
 		this.EnergyLevelLabel.setText(Integer.toString(gw.getPlayerCyborg().getEnergyLevel()));
 		this.DamageLevelLabel.setText(Integer.toString(gw.getPlayerCyborg().getDamageLevel()));
 		this.SoundLabel.setText((gw.getSound()));
+		this.revalidate();
 		this.repaint();
 	}
 	
