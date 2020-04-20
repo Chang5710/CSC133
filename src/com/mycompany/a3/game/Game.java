@@ -247,7 +247,7 @@ public class Game extends Form implements Runnable{
 		obj.getAllStyles().setPadding(BOTTOM, 5);
 		obj.getAllStyles().setMargin(BOTTOM, 2);
 		obj.getAllStyles().setMargin(LEFT,2);
-		obj.setDisabledStyle(obj.getStyle());
+		obj.setDisabledStyle(obj.getStyle()); 
 		return obj;
 	}
 	

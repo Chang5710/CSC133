@@ -86,22 +86,8 @@ public class MapView extends Container implements Observer{
 	
 	@Override
 	public void pointerPressed(int x, int y) {
-	//	System.out.println("Clicked " + "(" + x + "," + y + ")");
 		
-		
-		boolean move = false;
-		/*
-		 *  Is there any object selected already?
-		 *  for each item in GameObjects 
-		 *  	if item is selected
-		 *  		if pressed loc is valid 
-		 *  			item.setLoc(pointer's x,y)
-		 *  			move = true
-		 *  			repaint()
-		 *  
-		 *  if(!move)
-		 */
-		
+		boolean move = false; //sign flag if object is selected
 
 		x = x - getParent().getAbsoluteX();
 		y = y - getParent().getAbsoluteY();
