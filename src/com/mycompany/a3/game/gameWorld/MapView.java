@@ -84,6 +84,27 @@ public class MapView extends Container implements Observer{
 			}
 		}
 	}
+	
+	@Override
+	public void pointerPressed(int x, int y) {
+		System.out.println("Clicked");
+//		x = x - getParent().getAbsoluteX();
+//		y = y - getParent().getAbsoluteY();
+//		Point pPtrRelPrnt = new Point(x,y);
+//		Point pCmpRelPrnt = new Point(getX() , getY());
+//		IIterator iter = gw.getGameObjects().getIterator();
+//		while(iter.hasNext()) {
+//			GameObject obj = iter.getNext();
+//			if(obj instanceof ISelectable) {
+//				if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
+//					((ISelectable)obj).setSelected(true);
+//				}else {
+//					//Not selected
+//				}
+//			}
+//			repaint();
+//		}
+	}
 
 
 }

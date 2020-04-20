@@ -44,7 +44,10 @@ public class Base extends FixedObject implements IDrawable {
 		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30), (yLoc + 30) };
 		  int nPoints = 4;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
-		  g.fillPolygon(xPoints, yPoints, nPoints);
+
+		  if(!isSelected()) {
+			  g.fillPolygon(xPoints, yPoints, nPoints);
+		  }
 		  
 		  //draw Base ID on the Base
 		  g.setColor(ColorUtil.BLACK);
@@ -84,6 +87,23 @@ public class Base extends FixedObject implements IDrawable {
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		// TODO Auto-generated method stub
+		int px = pPtrRelPrnt.getX();
+		int py = pPtrRelPrnt.getY();
+		
+		int xLoc = (int) (pCmpRelPrnt.getX() + getX());
+		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
+		
+		if ( (px >= xLoc) && (px <= xLoc+30) && (py >= yLoc) && (py <= yLoc+30) ) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 }

@@ -1,9 +1,13 @@
 package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 
+import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
+import com.mycompany.a3.game.gameWorld.ISelectable;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
-public abstract class FixedObject extends GameObject{
+public abstract class FixedObject extends GameObject implements ISelectable{
+	
+	private boolean isSelected;
 	
 	//update color for EnergyStation
 	public FixedObject(int Color) {
@@ -20,4 +24,14 @@ public abstract class FixedObject extends GameObject{
 	public void setLocation(Point2D location) {
 	}
 
+	
+	public boolean isSelected() {
+		return isSelected;
+	}
+	
+	public void setSelected(boolean flag) {
+		isSelected = flag;
+	}
+	
+	public abstract boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt);
 }
