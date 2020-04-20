@@ -119,7 +119,7 @@ public class GameWorld extends Observable{
 		if(GamePause == false) {
 			this.Sounds = sound;
 			if(Sounds == "ON") {
-				//bgm.play();
+				bgm.play();
 			}else {
 				bgm.pause();
 			}
@@ -455,10 +455,7 @@ public class GameWorld extends Observable{
 		
 	}
 	
-	//Pause
-	public void Pause() {
-		
-	}
+	
 	
 	//Cheat Mod
 	public void CheatMod() {

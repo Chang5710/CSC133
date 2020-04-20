@@ -32,6 +32,8 @@ public class Game extends Form implements Runnable{
 	private MapView mv;
 	private ScoreView sv;
 	
+	private boolean pause = false;
+	
 	//set up Command Patterns
 	private CommandAccelerate cmdAccelerate;
 	private CommandBrake cmdBrake;
@@ -45,6 +47,17 @@ public class Game extends Form implements Runnable{
 	private CommandPosition cmdPosition;
 	private CommandPause cmdPause;
 	private CommandCheatMod cmdCheat;
+	Button EmptyButton;
+	Button AccelerateButton;
+	Button LeftButton;
+	Button ChangeStrategiesButton;
+ 	Button PositionButton;
+ 	Button PauseButton;
+ 	Button BrakeButton;
+ 	Button RightButton;
+ 	CheckBox SoundCB;
+ 	Button CheatButton;
+ 	Toolbar titleBar;
 	
 	
 	private UITimer timer;
@@ -73,23 +86,23 @@ public class Game extends Form implements Runnable{
 		Container westContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 		
 			//Components
-			Button EmptyButton = new Button(" "); //make it looks more close to the simple GUI
+			EmptyButton = new Button(" "); //make it looks more close to the simple GUI
 			EmptyButton.getAllStyles().setPadding(TOP, 5);
 			EmptyButton.getAllStyles().setPadding(BOTTOM, 5);
 			
-			Button AccelerateButton = new Button("Accelerate");
+			AccelerateButton = new Button("Accelerate");
 			AccelerateButton = makePretty(AccelerateButton);
 			cmdAccelerate = new CommandAccelerate(gw);
 			AccelerateButton.setCommand(cmdAccelerate);
 			addKeyListener('a' , cmdAccelerate);
 		 	
-			Button LeftButton = new Button("Left");
+			LeftButton = new Button("Left");
 			LeftButton = makePretty(LeftButton);
 			cmdLeftTurn = new CommandLeftTurn(gw);
 			LeftButton.setCommand(cmdLeftTurn);
 			addKeyListener('l' , cmdLeftTurn);
 		 	
-			Button ChangeStrategiesButton = new Button("Change Strategies");
+			ChangeStrategiesButton = new Button("Change Strategies");
 			ChangeStrategiesButton = makePretty(ChangeStrategiesButton);
 			cmdChangeStrategies = new CommandChangeStrategies(gw);
 			ChangeStrategiesButton.setCommand(cmdChangeStrategies);
@@ -110,14 +123,14 @@ public class Game extends Form implements Runnable{
 		  */
 		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
 		 	
-		 	Button PositionButton = new Button();
+		 	PositionButton = new Button();
 		 	PositionButton = makePretty(PositionButton);
 		 	cmdPosition = new CommandPosition(gw);
 		 	PositionButton.setCommand(cmdPosition);
 		 	
-		 	Button PauseButton = new Button();
+		 	PauseButton = new Button();
 		 	PauseButton = makePretty(PauseButton);
-		 	cmdPause = new CommandPause(gw);
+		 	cmdPause = new CommandPause(this);
 		 	PauseButton.setCommand(cmdPause);
 		 			
 
@@ -135,13 +148,13 @@ public class Game extends Form implements Runnable{
 		  */
 		 Container eastContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
 
-		 	Button BreakButton = new Button();
-		 	BreakButton = makePretty(BreakButton);
+		 	BrakeButton = new Button();
+		 	BrakeButton = makePretty(BrakeButton);
 		 	cmdBrake = new CommandBrake(gw);
-		 	BreakButton.setCommand(cmdBrake);
+		 	BrakeButton.setCommand(cmdBrake);
 		 	addKeyListener('b' , cmdBrake);
 		 	
-		 	Button RightButton = new Button();
+		 	RightButton = new Button();
 		 	RightButton = makePretty(RightButton);
 		 	cmdRightTurn = new CommandRightTurn(gw);
 		 	RightButton.setCommand(cmdRightTurn);
@@ -151,7 +164,7 @@ public class Game extends Form implements Runnable{
 		 	EmptyButton.getAllStyles().setPadding(TOP, 5);
 			EmptyButton.getAllStyles().setPadding(BOTTOM, 5);
 		 	eastContainer.add(EmptyButton); //make it looks more close to the simple GUI
-		 	eastContainer.add(BreakButton);
+		 	eastContainer.add(BrakeButton);
 		 	eastContainer.add(RightButton);
 		 	
 		 	
@@ -161,7 +174,7 @@ public class Game extends Form implements Runnable{
 		  * Adding Title Bar
 		  */
 		 	
-		 Toolbar titleBar = new Toolbar();
+		 titleBar = new Toolbar();
 		 setToolbar(titleBar);
 		 titleBar.setTitle("Sili-Challenge Game");
 		 cmdHelpInfo = new CommandHelpInfo(gw); 
@@ -171,10 +184,8 @@ public class Game extends Form implements Runnable{
 		 
 		 // adding Command to the SideMenu
 		 titleBar.addCommandToSideMenu(cmdAccelerate);
-		 
-		 
-		 
-		 CheckBox SoundCB = new CheckBox();
+		
+		 SoundCB = new CheckBox();
 		 cmdSound = new CommandSound(gw);
 		 SoundCB.setCommand(cmdSound);
 		 SoundCB.getAllStyles().setBgTransparency(255);
@@ -187,7 +198,7 @@ public class Game extends Form implements Runnable{
 		 
 		 titleBar.addCommandToSideMenu(cmdHelpInfo);
 		 
-		 Button CheatButton = new Button();
+		 CheatButton = new Button();
 		 CheatButton = makePretty(CheatButton);
 		 cmdCheat = new CommandCheatMod(gw);
 	 	 CheatButton.setCommand(cmdCheat);
@@ -195,7 +206,6 @@ public class Game extends Form implements Runnable{
 		 
 		 cmdExit = new CommandExit(gw);
 		 titleBar.addCommandToSideMenu(cmdExit);
-		 
 		 
 		 /**
 		  * North Container 
@@ -208,11 +218,7 @@ public class Game extends Form implements Runnable{
 		  * Center Container 
 		  */
 		 add(BorderLayout.CENTER, mv);
-		 
-		 
-
 		
-	 
 		this.show();
 		timer = new UITimer(this);
 		timer.schedule(20, true, this);
@@ -238,7 +244,57 @@ public class Game extends Form implements Runnable{
 		obj.getAllStyles().setPadding(BOTTOM, 5);
 		obj.getAllStyles().setMargin(BOTTOM, 2);
 		obj.getAllStyles().setMargin(LEFT,2);
+		obj.setDisabledStyle(obj.getStyle());
 		return obj;
+	}
+	
+	//Pause
+	public void Pause() {
+		pause = !pause;
+		if(pause) {
+			timer.cancel();
+			gw.setSound("OFF");
+			
+			//Key Disable
+			removeKeyListener('a' , cmdAccelerate);
+			AccelerateButton.setEnabled(false);
+			removeKeyListener('b', cmdBrake);
+			BrakeButton.setEnabled(false);
+			removeKeyListener('l', cmdLeftTurn);
+			LeftButton.setEnabled(false);
+			removeKeyListener('r', cmdRightTurn);
+			RightButton.setEnabled(false);
+			ChangeStrategiesButton.setEnabled(false);
+		 	PositionButton.setEnabled(false);
+		 	BrakeButton.setEnabled(false);
+		 	SoundCB.setEnabled(false);
+		 	CheatButton.setEnabled(false);
+		 	PositionButton.setEnabled(true);
+		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(false);
+		 	titleBar.findCommandComponent(cmdCheat).setEnabled(false);
+			
+			
+		} else {
+			timer.schedule(20, true, this);
+			gw.setSound("ON");
+			
+			//Key Enable
+			addKeyListener('a', cmdAccelerate);
+			AccelerateButton.setEnabled(true);
+			addKeyListener('b', cmdBrake);
+			BrakeButton.setEnabled(true);
+			addKeyListener('l', cmdLeftTurn);
+			LeftButton.setEnabled(true);
+			addKeyListener('r', cmdRightTurn);
+			RightButton.setEnabled(true);
+			ChangeStrategiesButton.setEnabled(true);
+		 	BrakeButton.setEnabled(true);
+		 	SoundCB.setEnabled(true);
+		 	CheatButton.setEnabled(true);
+		 	PositionButton.setEnabled(false);
+		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(true);
+		 	titleBar.findCommandComponent(cmdCheat).setEnabled(true);
+		}
 	}
 
 

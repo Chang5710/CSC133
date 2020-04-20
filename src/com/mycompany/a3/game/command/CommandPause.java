@@ -2,17 +2,18 @@ package com.mycompany.a3.game.command;
 
 import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
+import com.mycompany.a3.game.Game;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 
 public class CommandPause extends Command{
-private GameWorld gw;
+private Game g;
 	
-	public CommandPause(GameWorld gw) {
+	public CommandPause(Game g) {
 		super("Pause");
-		this.gw = gw;
+		this.g = g;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.Pause();
+		g.Pause();
 	}
 }

@@ -21,6 +21,7 @@ public class BGSound implements Runnable {
 	}
 	
 	public void play() {
+		m.setVolume(50);
 		m.play();	
 	}
 	
