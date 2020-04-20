@@ -273,7 +273,9 @@ public class Game extends Form implements Runnable{
 		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(false);
 		 	titleBar.findCommandComponent(cmdCheat).setEnabled(false);
 			
-			
+			// Let gameworld know game is paused 
+		 	gw.pauseGame(true);
+		 	
 		} else {
 			timer.schedule(20, true, this);
 			gw.setSound("ON");

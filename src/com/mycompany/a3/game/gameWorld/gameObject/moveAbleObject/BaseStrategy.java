@@ -41,7 +41,7 @@ public class BaseStrategy implements IStrategy {
 					if(obj.getX() > npc.getX()) {
 						newSD += 90;
 						newSteeringDirection += 90;
-						System.out.println(newSD);
+					//	System.out.println(newSD);
 					}else if(obj.getX() < npc.getX()) {//if base is on the left side
 						 //newSD = 90 - newSD;
 						 //newSteeringDirection = (int) (90 - newSD);

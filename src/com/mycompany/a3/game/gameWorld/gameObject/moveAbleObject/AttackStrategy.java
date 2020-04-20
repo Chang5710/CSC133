@@ -32,7 +32,7 @@ public class AttackStrategy implements IStrategy{
 					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
 					newSD = Math.toDegrees(MathUtil.atan(dy/dx));
 				}else {
-					System.out.println("SD set to 0");
+					//System.out.println("SD set to 0");
 					newSteeringDirection = 0;
 					newSD = 0;
 				}

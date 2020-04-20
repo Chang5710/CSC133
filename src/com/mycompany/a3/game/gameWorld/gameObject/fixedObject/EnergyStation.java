@@ -111,10 +111,10 @@ public class EnergyStation extends FixedObject implements IDrawable{
 		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
 		
 		if ( (px >= xLoc) && (px <= xLoc+size) && (py >= yLoc) && (py <= yLoc+size) ) {
-			System.out.println("TRUE");
+		//	System.out.println("TRUE");
 			return true;
 		}else {
-			System.out.println("False");
+		//	System.out.println("False");
 			return false;
 		}
 	}

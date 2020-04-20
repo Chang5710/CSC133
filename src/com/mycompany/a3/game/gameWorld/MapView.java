@@ -12,6 +12,7 @@ import com.codename1.ui.geom.Point2D;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
+import com.mycompany.a3.game.gameWorld.gameObject.fixedObject.EnergyStation;
 
 public class MapView extends Container implements Observer{
 
@@ -85,7 +86,7 @@ public class MapView extends Container implements Observer{
 	
 	@Override
 	public void pointerPressed(int x, int y) {
-		System.out.println("Clicked");
+	//	System.out.println("Clicked " + "(" + x + "," + y + ")");
 		
 		
 		boolean move = false;
@@ -100,24 +101,37 @@ public class MapView extends Container implements Observer{
 		 *  
 		 *  if(!move)
 		 */
+		
+
 		x = x - getParent().getAbsoluteX();
 		y = y - getParent().getAbsoluteY();
 		Point pPtrRelPrnt = new Point(x,y);
 		Point pCmpRelPrnt = new Point(getX() , getY());
-		
+		x -= getX(); //X relative to mapview 
+		y -= getY();
+		System.out.println("Clicked " + "(" + x + "," + y + ")");
 		IIterator iter2 = gw.getGameObjects().getIterator();
 		while(iter2.hasNext()) {
 			GameObject obj = iter2.getNext();
 			if(obj instanceof ISelectable) {
 				if(((ISelectable)obj).isSelected()) {
-					System.out.println("Valid Move");
-					obj.setLocation(new Point2D(pPtrRelPrnt.getX(), pPtrRelPrnt.getY()));
+				//	System.out.println("Valid Move");
+					if(!gw.getPositionToggle()) break;
+					
+					if(obj instanceof EnergyStation) {
+						obj.setLocation(new Point2D(x-obj.getSize()/2,y-obj.getSize()/2));
+					}else {
+						//BASE 
+						obj.setLocation(new Point2D(x,y));
+					}
+
 					move = true;
 					repaint();
+					((ISelectable)obj).setSelected(false);
 					return;
 
 				}else {
-					System.out.println("Invalid Move");
+				//	System.out.println("Invalid Move");
 					((ISelectable)obj).setSelected(false);
 				}
 			}

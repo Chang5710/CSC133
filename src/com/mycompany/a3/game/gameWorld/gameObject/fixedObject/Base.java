@@ -40,9 +40,9 @@ public class Base extends FixedObject implements IDrawable {
 		  g.setColor(this.getColor());
 		  int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX();
 		  int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
-		  int[] xPoints = { xLoc, (xLoc - 30), (xLoc + 30), xLoc };
-		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30), (yLoc + 30) };
-		  int nPoints = 4;
+		  int[] xPoints = { xLoc, (xLoc - 30), (xLoc + 30) };
+		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30)};
+		  int nPoints = 3;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
 
 		  if(!isSelected()) {
@@ -100,10 +100,10 @@ public class Base extends FixedObject implements IDrawable {
 		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
 		
 		if ( (px >= xLoc-30) && (px <= xLoc+30) && (py >= yLoc-30) && (py <= yLoc+30) ) {
-			System.out.println("TRUE");
+			//System.out.println("TRUE");
 			return true;
 		}else {
-			System.out.println("False");
+		//	System.out.println("False");
 			return false;
 		}
 	}

@@ -35,6 +35,7 @@ public class GameWorld extends Observable{
 	private int realTime = 0;
 	private GameObjectCollection gameObjects;
 	private String Sounds = "ON";
+	private boolean positionToggle = false;
 	Random rn = new Random();
 	private PlayerCyborg cyborg; //to hold player cyborg
 	NonPlayerCyborg cyborgNPC; //to hold temporary NPC cyborg
@@ -46,6 +47,17 @@ public class GameWorld extends Observable{
 	private Sound chargeSound;
 	private Sound explosionSound;
 	private boolean GamePause;
+	
+//	public void setPositionToggle(boolean flag) {
+//		//Ignore if pause isn't paused
+//		if(GamePause) {
+//			positionToggle = flag;
+//		}
+//	}
+	
+	public boolean getPositionToggle() {
+		return positionToggle;
+	}
 	
 	//setter and getter
 	public int getGameClock() {
@@ -453,9 +465,19 @@ public class GameWorld extends Observable{
 	
 	//Posistion
 	public void ChangePosition() {
-		
+		if(GamePause) {
+			positionToggle = !positionToggle;
+			if(positionToggle) {
+				System.out.println("Position :  ON" );
+			}else{
+				System.out.println("Position : OFF");
+			}
+		}
 	}
 	
+	public void pauseGame(boolean flag) {
+		GamePause = flag;
+	}
 	
 	
 	//Cheat Mod

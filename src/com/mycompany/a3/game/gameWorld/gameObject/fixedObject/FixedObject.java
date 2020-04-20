@@ -22,6 +22,7 @@ public abstract class FixedObject extends GameObject implements ISelectable{
 	
 	@Override
 	public void setLocation(Point2D location) {
+		super.setLocation(location);
 	}
 
 	
