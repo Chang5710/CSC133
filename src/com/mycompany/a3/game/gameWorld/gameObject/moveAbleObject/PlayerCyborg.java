@@ -1,5 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
+import java.util.Vector;
+
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -13,6 +15,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
 	private static double initialX=200;
 	private static double initialY=200;
+	private Vector<GameObject> OverCollided;
 	
 	
 	
@@ -35,7 +38,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setDamageLevel(0);
 		this.setEnergyLevel(99999);
 		this.setSize(50);
-		this.setMaxDamageLevel(999999990);
+		this.setMaxDamageLevel(80);
 		this.setMaxEnergyLevel(999999940);
 		this.setSteeringDirection(0);
 	}
@@ -57,8 +60,8 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setSteeringDirection(90); //90=0 to the north
 		this.setSpeed(0);
 		this.setEnergyLevel(9999990);
-		this.setDamageLevel(999999);
-		this.setColor(ColorUtil.BLUE);
+		this.setDamageLevel(80);
+		this.setColor(this.getColor());
 		this.setLife(getLife()-1);
 	}
 	

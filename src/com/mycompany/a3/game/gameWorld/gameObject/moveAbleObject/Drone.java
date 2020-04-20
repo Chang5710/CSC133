@@ -1,5 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
+import java.util.Vector;
+
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -7,6 +9,8 @@ import com.mycompany.a3.game.gameWorld.IDrawable;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Drone extends MoveableObject implements IDrawable{
+	
+	private Vector<GameObject> OverCollided;
 	
 	//set a non-player Drone black color and size 10
 	public Drone() {

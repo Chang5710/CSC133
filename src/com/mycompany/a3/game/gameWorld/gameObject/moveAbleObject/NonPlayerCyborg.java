@@ -1,5 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
+import java.util.Vector;
+
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -14,6 +16,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	private IStrategy curStrategy;
 	private int targetBase;
 	private double SD;
+	private Vector<GameObject> OverCollided;
 
 	
 
@@ -68,6 +71,18 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 			Strategy = "AttackStrategy";
 		}
 		return Strategy;
+	}
+	
+	@Override
+	public void respawn(double newX,double newY) {
+		this.setX(newX);
+		this.setY(newY);
+		this.setSteeringDirection(90); //90=0 to the north
+		this.setSpeed(0);
+		this.setEnergyLevel(80);
+		this.setDamageLevel(80);
+		this.setColor(this.getColor());
+		this.setLife(getLife()-1);
 	}
 	
 	public String toString() {

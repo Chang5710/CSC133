@@ -1,7 +1,9 @@
 package com.mycompany.a3.game.gameWorld;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Vector;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Display;
@@ -32,19 +34,18 @@ public class GameWorld extends Observable{
 	private int numberOfBase = 4;
 	private int realTime = 0;
 	private GameObjectCollection gameObjects;
-	private String Sound = "ON";
+	private String Sounds = "ON";
 	Random rn = new Random();
 	private PlayerCyborg cyborg; //to hold player cyborg
 	NonPlayerCyborg cyborgNPC; //to hold temporary NPC cyborg
 	EnergyStation energyStation;
 	Base base;
 	IStrategy strategy; 
-	
-
 	private BGSound bgm;
 	private Sound crashSound;
 	private Sound chargeSound;
 	private Sound explosionSound;
+	private boolean GamePause;
 	
 	//setter and getter
 	public int getGameClock() {
@@ -89,9 +90,9 @@ public class GameWorld extends Observable{
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
 //		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
 //		cyborgNPC.setStrategy(new BaseStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,170));
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,50));
 		cyborgNPC.setStrategy(new AttackStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(100,200));
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(50,200));
 		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
 		for(int i =0;i<numberOfDrone;i++) {
@@ -108,25 +109,27 @@ public class GameWorld extends Observable{
 		crashSound = new Sound("crash.wav");
 		chargeSound = new Sound("charge.wav");
 		explosionSound = new Sound("explosion.wav");
-		setSound(Sound);
+		setSound(Sounds);
 	
 		this.setChanged();
 		this.notifyObservers(this);
 	}
 	
 	public void setSound(String sound) {
-		this.Sound = sound;
-		if(Sound == "ON") {
-			bgm.play();
-		}else {
-			bgm.pause();
+		if(GamePause == false) {
+			this.Sounds = sound;
+			if(Sounds == "ON") {
+				bgm.play();
+			}else {
+				bgm.pause();
+			}
+			this.setChanged();
+			this.notifyObservers(this);
 		}
-		this.setChanged();
-		this.notifyObservers(this);
 	}
 	
 	public String getSound() {
-		return Sound;
+		return Sounds;
 	}
 
 	public static int getGameHeight() {
@@ -181,6 +184,8 @@ public class GameWorld extends Observable{
 		if(cyborgT.getLife()>1) {
 			Base base = findBase(cyborgT); 
 			cyborgT.respawn(base.getX(),base.getY());
+			if(Sounds == "ON")
+				explosionSound.play();
 		}else {
 			if(cyborgT instanceof PlayerCyborg) {
 				System.out.println("PlayerCyborg Lose! \n");
@@ -291,12 +296,13 @@ public class GameWorld extends Observable{
 	
 	//game clock has ticked
 	public void tick() {
+		
 		gameClock++;
 		if(gameClock % 50 == 0) {
 			realTime += 1;
+			//check Energy
+			consumeEnergy(cyborg);
 		}
-		//check Energy
-		consumeEnergy(cyborg);
 		
 		//check heading
 		checkHeading(cyborg);
@@ -337,47 +343,48 @@ public class GameWorld extends Observable{
 	}
 	
 	//checkCollision
-		private void checkCollision() {
-			IIterator iter3 = gameObjects.getIterator();
-			while(iter3.hasNext()) {
-				ICollider curObj = (ICollider)iter3.getNext();
+	private void checkCollision() {
+		IIterator iter3 = gameObjects.getIterator();
+		while(iter3.hasNext()) {
+			ICollider curObj = (ICollider)iter3.getNext();
 
-				IIterator iter4 = gameObjects.getIterator();
-				while(iter4.hasNext()) {
-					ICollider otherObj = (ICollider) iter4.getNext();
-					if(otherObj != curObj) {
-						if(curObj.collidesWith((GameObject) otherObj)) {
-							curObj.handleCollision((GameObject) otherObj);
-							if(curObj instanceof PlayerCyborg || curObj instanceof NonPlayerCyborg) {
-								if(otherObj instanceof PlayerCyborg || 
-										otherObj instanceof NonPlayerCyborg ||
-										otherObj instanceof Drone) { //if PlayerCyborg or NPC collided PlayerCyborg, NPC or Drone
-									checkDamage(((Cyborg) curObj).getDamageLevel(),(Cyborg) curObj); //set check Damage Level of PlayerCyborg
-									if(Sound == "ON")
-										crashSound.play();
-								}
-								else if(otherObj instanceof Base) { //if PlayerCyborg or NPC collided with base
-									curObj.handleCollision((GameObject) otherObj);
-									if(((Cyborg) curObj).getLastBaseReached() ==numberOfBase) { //check WIN
-										if(curObj instanceof PlayerCyborg) {
-											System.out.println("You Won!!! You had reach to the last Base!\n");
-											System.exit(0);
-										}
-										else {
-											System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
-											System.exit(0);
-										}
+			IIterator iter4 = gameObjects.getIterator();
+			while(iter4.hasNext()) {
+				ICollider otherObj = (ICollider) iter4.getNext();
+				if(otherObj != curObj) {
+					if(curObj.collidesWith((GameObject) otherObj)) {
+						
+						curObj.handleCollision((GameObject) otherObj);
+						if(curObj instanceof PlayerCyborg || curObj instanceof NonPlayerCyborg) {
+							if(otherObj instanceof PlayerCyborg || 
+									otherObj instanceof NonPlayerCyborg ||
+									otherObj instanceof Drone) { //if PlayerCyborg or NPC collided PlayerCyborg, NPC or Drone
+								checkDamage(((Cyborg) curObj).getDamageLevel(),(Cyborg) curObj); //set check Damage Level of PlayerCyborg
+								if(Sounds == "ON")
+									crashSound.play();
+							}
+							else if(otherObj instanceof Base) { //if PlayerCyborg or NPC collided with base
+								curObj.handleCollision((GameObject) otherObj);
+								if(((Cyborg) curObj).getLastBaseReached() ==numberOfBase) { //check WIN
+									if(curObj instanceof PlayerCyborg) {
+										System.out.println("You Won!!! You had reach to the last Base!\n");
+										System.exit(0);
+									}
+									else {
+										System.out.println("NonPlayerCyborg Won!!! NonPlayerCyborg had reach to the last Base!\n");
+										System.exit(0);
 									}
 								}
-								else if(otherObj instanceof EnergyStation) {
-									if(((EnergyStation) otherObj).getCapacity()!=0)
-										gameObjects.add(new EnergyStation());
-										if(Sound == "ON")
-											chargeSound.play();
+							}
+							else if(otherObj instanceof EnergyStation) {
+								if(((EnergyStation) otherObj).getCapacity()!=0)
+									gameObjects.add(new EnergyStation());
+									if(Sounds == "ON")
+										chargeSound.play();
 										
 								}
 							}
-
+	
 						}
 					}
 				}
@@ -385,7 +392,6 @@ public class GameWorld extends Observable{
 
 		}
 
-	
 	//if NPC's Energy running low add some more
 	public void checkNPCEnergy() {
 		IIterator iter = gameObjects.getIterator();
@@ -419,8 +425,6 @@ public class GameWorld extends Observable{
 		System.out.println("\n");
 	}
 	
-
-	
 	//Change starategy for each NPC
 	public void ChangeStrategies() {
 		System.out.println("All NPC changed strategy");
@@ -437,6 +441,8 @@ public class GameWorld extends Observable{
 			}
 		}
 	}
+	
+	
 	
 	//Posistion
 	public void ChangePosition() {

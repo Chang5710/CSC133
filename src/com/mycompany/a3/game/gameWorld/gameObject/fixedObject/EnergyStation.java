@@ -1,6 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 
 import java.util.Random;
+import java.util.Vector;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
@@ -13,6 +14,7 @@ import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.PlayerCyborg;
 public class EnergyStation extends FixedObject implements IDrawable{
 	private int capacity;
 	private int size;
+	private Vector<GameObject> OverCollided;
 	
 	//set capacity and size for EnergyStation
 	public EnergyStation() {

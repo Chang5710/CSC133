@@ -109,7 +109,7 @@ public class AttackStrategy implements IStrategy{
 					npc.setSpeed(1);
 				}else {
 					Random rn = new Random();
-					int speed= rn.nextInt((15-3)+1)+3;
+					int speed= rn.nextInt((5-3)+1)+3;
 					npc.setSpeed(speed); //set speed to Full speed
 				}
 				
