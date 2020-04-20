@@ -10,8 +10,6 @@ import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Drone extends MoveableObject implements IDrawable{
 	
-	private Vector<GameObject> OverCollided;
-	
 	//set a non-player Drone black color and size 10
 	public Drone() {
 		super(ColorUtil.BLACK);

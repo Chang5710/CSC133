@@ -10,7 +10,6 @@ import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
 
 public class Base extends FixedObject implements IDrawable {
 	private int baseID;
-	private Vector<GameObject> OverCollided;
 	
 	//set up Base details information
 	public Base(int baseID, double x,double y) {

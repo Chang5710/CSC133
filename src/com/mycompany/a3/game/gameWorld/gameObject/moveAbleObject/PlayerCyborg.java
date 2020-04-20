@@ -15,9 +15,6 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
 	private static double initialX=200;
 	private static double initialY=200;
-	private Vector<GameObject> OverCollided;
-	
-	
 	
 	//Singleton design pattern 
 	private volatile static PlayerCyborg playerCyborg;
@@ -61,7 +58,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setSpeed(0);
 		this.setEnergyLevel(9999990);
 		this.setDamageLevel(80);
-		this.setColor(this.getColor());
+		this.setColor(ColorUtil.BLUE);
 		this.setLife(getLife()-1);
 	}
 	
@@ -107,11 +104,12 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		g.fillRect(x, y, this.getSize(), this.getSize());
 		
 		//easy to see which direction heading
-		double line = Math.toRadians(90- getHeading());
-		double dirX = (Math.cos(line) * 70) + x;
-		double dirY = (Math.sin(line) * 70) + y;
+		double angle = Math.toRadians(90- getHeading());
+		double dx = 70*Math.cos(angle);
+		double dy = 70*Math.sin(angle);
+
 		g.setColor(ColorUtil.BLACK);
-		g.drawLine(x+25 , y+25 , (int)dirX, (int)dirY);
+		g.drawLine(x+25 , y+25 , (int)(x+25+dx) , (int)(y+25+dy));
 	}
 
 	@Override

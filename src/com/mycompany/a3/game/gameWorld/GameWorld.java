@@ -119,7 +119,7 @@ public class GameWorld extends Observable{
 		if(GamePause == false) {
 			this.Sounds = sound;
 			if(Sounds == "ON") {
-				bgm.play();
+				//bgm.play();
 			}else {
 				bgm.pause();
 			}
@@ -352,8 +352,8 @@ public class GameWorld extends Observable{
 			while(iter4.hasNext()) {
 				ICollider otherObj = (ICollider) iter4.getNext();
 				if(otherObj != curObj) {
-					if(curObj.collidesWith((GameObject) otherObj)) {
-						
+					if(curObj.collidesWith((GameObject) otherObj) && !((GameObject) curObj).isThere((GameObject)otherObj)) {
+						((GameObject) curObj).addCollided((GameObject) otherObj);
 						curObj.handleCollision((GameObject) otherObj);
 						if(curObj instanceof PlayerCyborg || curObj instanceof NonPlayerCyborg) {
 							if(otherObj instanceof PlayerCyborg || 
@@ -385,12 +385,18 @@ public class GameWorld extends Observable{
 								}
 							}
 	
+						} else {//if otherObj is not collided with curObj and its in curObj's vector
+							if (!curObj.collidesWith((GameObject) otherObj) && ((GameObject)curObj).isThere((GameObject)otherObj)){
+								((GameObject)curObj).delNotCollided((GameObject)otherObj); //remove it
+							}
 						}
 					}
 				}
 			}
 
 		}
+	
+
 
 	//if NPC's Energy running low add some more
 	public void checkNPCEnergy() {

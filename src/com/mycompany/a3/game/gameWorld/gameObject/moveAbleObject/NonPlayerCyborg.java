@@ -16,7 +16,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	private IStrategy curStrategy;
 	private int targetBase;
 	private double SD;
-	private Vector<GameObject> OverCollided;
+	
 
 	
 
@@ -73,6 +73,8 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		return Strategy;
 	}
 	
+
+	
 	@Override
 	public void respawn(double newX,double newY) {
 		this.setX(newX);
@@ -80,8 +82,8 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		this.setSteeringDirection(90); //90=0 to the north
 		this.setSpeed(0);
 		this.setEnergyLevel(80);
-		this.setDamageLevel(80);
-		this.setColor(this.getColor());
+		this.setDamageLevel(0);
+		this.setColor(ColorUtil.rgb(0, 191, 255));
 		this.setLife(getLife()-1);
 	}
 	

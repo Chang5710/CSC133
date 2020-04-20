@@ -1,6 +1,7 @@
 package com.mycompany.a3.game.gameWorld.gameObject;
 
 import java.util.Random;
+import java.util.Vector;
 
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.geom.Point2D;
@@ -12,6 +13,7 @@ public abstract class GameObject implements ICollider {
 	private Point2D location;
 	final private int gameWorldWidth = 1000;
 	final private int gameWorldHigh = 1000;
+	protected Vector<GameObject> OverCollided;
 	
 	//update a object in random location 
 	public GameObject(int Color) {
@@ -20,12 +22,27 @@ public abstract class GameObject implements ICollider {
 		double y = rn.nextDouble() * gameWorldHigh;
 		this.location = new Point2D(x,y);
 		this.color = Color;
+		OverCollided = new Vector<GameObject>();
+		System.out.println("OVerCollided initialized");
 		}
+	public boolean isThere(GameObject target) {
+		if(OverCollided.isEmpty()) return false;
+		return OverCollided.contains(target);
+	}
+	
+	public void addCollided(GameObject collided) {
+		OverCollided.add(collided);
+	}
+	
+	public void delNotCollided(GameObject target) {
+		OverCollided.removeElement(target);
+	}
 	
 	//update a object with set location
 	public GameObject(int Color, double x, double y) {
 		this.location = new Point2D(x,y);
 		this.color = Color;
+		OverCollided = new Vector<GameObject>();
 	}
 	
 	//getter and setter

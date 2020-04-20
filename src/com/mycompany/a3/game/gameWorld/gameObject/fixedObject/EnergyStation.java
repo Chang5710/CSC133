@@ -14,7 +14,6 @@ import com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject.PlayerCyborg;
 public class EnergyStation extends FixedObject implements IDrawable{
 	private int capacity;
 	private int size;
-	private Vector<GameObject> OverCollided;
 	
 	//set capacity and size for EnergyStation
 	public EnergyStation() {
