@@ -119,7 +119,6 @@ public class GameWorld extends Observable{
 	}
 	
 	public void setSound(String sound) {
-		if(GamePause == false) {
 			this.Sounds = sound;
 			if(Sounds == "ON") {
 				bgm.play();
@@ -128,7 +127,6 @@ public class GameWorld extends Observable{
 			}
 			this.setChanged();
 			this.notifyObservers(this);
-		}
 	}
 	
 	public String getSound() {
