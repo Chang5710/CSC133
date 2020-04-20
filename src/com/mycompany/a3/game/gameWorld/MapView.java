@@ -86,22 +86,58 @@ public class MapView extends Container implements Observer{
 	@Override
 	public void pointerPressed(int x, int y) {
 		System.out.println("Clicked");
+		
+		
+		boolean move = false;
+		/*
+		 *  Is there any object selected already?
+		 *  for each item in GameObjects 
+		 *  	if item is selected
+		 *  		if pressed loc is valid 
+		 *  			item.setLoc(pointer's x,y)
+		 *  			move = true
+		 *  			repaint()
+		 *  
+		 *  if(!move)
+		 */
 		x = x - getParent().getAbsoluteX();
 		y = y - getParent().getAbsoluteY();
 		Point pPtrRelPrnt = new Point(x,y);
 		Point pCmpRelPrnt = new Point(getX() , getY());
-		IIterator iter = gw.getGameObjects().getIterator();
-		while(iter.hasNext()) {
-			GameObject obj = iter.getNext();
+		
+		IIterator iter2 = gw.getGameObjects().getIterator();
+		while(iter2.hasNext()) {
+			GameObject obj = iter2.getNext();
 			if(obj instanceof ISelectable) {
-				if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
-					((ISelectable)obj).setSelected(true);
+				if(((ISelectable)obj).isSelected()) {
+					System.out.println("Valid Move");
+					obj.setLocation(new Point2D(pPtrRelPrnt.getX(), pPtrRelPrnt.getY()));
+					move = true;
+					repaint();
+					return;
+
 				}else {
-					//Not selected
+					System.out.println("Invalid Move");
 					((ISelectable)obj).setSelected(false);
 				}
 			}
-			repaint();
+		}
+		
+		if(!move) {
+			IIterator iter = gw.getGameObjects().getIterator();
+			while(iter.hasNext()) {
+				GameObject obj = iter.getNext();
+				if(obj instanceof ISelectable) {
+					if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
+						((ISelectable)obj).setSelected(true);
+						System.out.println("Object Selected");
+					}else {
+						//Not selected
+						((ISelectable)obj).setSelected(false);
+					}
+				}
+				repaint();
+			}
 		}
 	}
 
