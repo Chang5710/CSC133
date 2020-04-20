@@ -31,34 +31,34 @@ public class ScoreView extends Container implements Observer {
 		setLayout(new BoxLayout(BoxLayout.X_AXIS));
 		
 		//Time 
-		Label TimeTextLabel = new Label("Time: ");
+		Label TimeTextLabel = new Label("Time:");
 		TimeTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
 		TimeValueLabel = new Label("     ");
 		
 		//Lives
-		Label lifeTextLabel = new Label("Lives Left: ");
+		Label lifeTextLabel = new Label("Lives Left:");
 		lifeTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
 		lifeValueLabel = new Label(Integer.toString(gw.getPlayerCyborg().getLife()));
 		
 		//Last Base Reached
-		Label BaseTextLabel = new Label("Player Last Reached: ");
+		Label BaseTextLabel = new Label("Player Last Reached:");
 		BaseTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
 		LastBaseReachedLabel = new Label(Integer.toString(gw.getPlayerCyborg().getLastBaseReached()));
 		
 		//Energy Level
-		Label EnergyLevelTextLabel = new Label("Player Energy Level: ");
+		Label EnergyLevelTextLabel = new Label("Player Energy Level:");
 		EnergyLevelTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0, 0, 255));
 		EnergyLevelLabel = new Label(Integer.toString(gw.getPlayerCyborg().getEnergyLevel()));
 		
 		//Damage Level
-		Label DamageLevelTextLabel = new Label("Player Damage Level: ");
+		Label DamageLevelTextLabel = new Label("Player Damage Level:");
 		DamageLevelTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0, 0, 255));
-		DamageLevelLabel = new Label(Integer.toString(gw.getPlayerCyborg().getDamageLevel()));
+		DamageLevelLabel = new Label("    ");
 		
 		//Sound
-		Label SoundTextLabel = new Label("Sound: ");
+		Label SoundTextLabel = new Label("Sound:");
 		SoundTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
-		SoundLabel = new Label("ON");
+		SoundLabel = new Label("          ");
 		
 		
 	

@@ -30,13 +30,13 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 	
 	private PlayerCyborg() {
 		super(ColorUtil.BLUE,0,0,initialX,initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
-		this.setLife(99999999);
+		this.setLife(3);
 		this.setLastBaseReached(1);
 		this.setDamageLevel(0);
-		this.setEnergyLevel(99999);
+		this.setEnergyLevel(40);
 		this.setSize(50);
 		this.setMaxDamageLevel(80);
-		this.setMaxEnergyLevel(999999940);
+		this.setMaxEnergyLevel(40);
 		this.setSteeringDirection(0);
 	}
 	

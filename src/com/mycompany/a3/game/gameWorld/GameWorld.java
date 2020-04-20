@@ -88,11 +88,11 @@ public class GameWorld extends Observable{
 		gameObjects.add(new Base(3,500,500));
 		gameObjects.add(new Base(4,800,800));
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
-//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(230,200));
+//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(400,200));
 //		cyborgNPC.setStrategy(new BaseStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,50));
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,0));
 		cyborgNPC.setStrategy(new AttackStrategy());
-		gameObjects.add(cyborgNPC = new NonPlayerCyborg(50,200));
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(0,200));
 		cyborgNPC.setStrategy(new AttackStrategy());
 		this.numberOfDrone = 2;
 		for(int i =0;i<numberOfDrone;i++) {
@@ -377,24 +377,25 @@ public class GameWorld extends Observable{
 								}
 							}
 							else if(otherObj instanceof EnergyStation) {
-								if(((EnergyStation) otherObj).getCapacity()!=0)
+								if(((EnergyStation) otherObj).getCapacity()!=0) {
 									gameObjects.add(new EnergyStation());
 									if(Sounds == "ON")
 										chargeSound.play();
-										
 								}
+										
 							}
+						}
 	
-						} else {//if otherObj is not collided with curObj and its in curObj's vector
-							if (!curObj.collidesWith((GameObject) otherObj) && ((GameObject)curObj).isThere((GameObject)otherObj)){
-								((GameObject)curObj).delNotCollided((GameObject)otherObj); //remove it
-							}
+					} else {//if otherObj is not collided with curObj and its in curObj's vector
+						if (!curObj.collidesWith((GameObject) otherObj) && ((GameObject)curObj).isThere((GameObject)otherObj)){
+							((GameObject)curObj).delNotCollided((GameObject)otherObj); //remove it
 						}
 					}
 				}
 			}
-
 		}
+
+	}
 	
 
 

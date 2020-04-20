@@ -99,9 +99,11 @@ public class Base extends FixedObject implements IDrawable {
 		int xLoc = (int) (pCmpRelPrnt.getX() + getX());
 		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
 		
-		if ( (px >= xLoc) && (px <= xLoc+30) && (py >= yLoc) && (py <= yLoc+30) ) {
+		if ( (px >= xLoc-30) && (px <= xLoc+30) && (py >= yLoc-30) && (py <= yLoc+30) ) {
+			System.out.println("TRUE");
 			return true;
 		}else {
+			System.out.println("False");
 			return false;
 		}
 	}

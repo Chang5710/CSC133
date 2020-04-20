@@ -51,8 +51,12 @@ public class EnergyStation extends FixedObject implements IDrawable{
 		g.setColor(this.getColor());
 		int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX() ;
 		int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
-		g.drawArc(xLoc, yLoc, size,size, 0, 360);		
-		g.fillArc(xLoc, yLoc, size,size, 0, 360);
+		
+		g.drawArc(xLoc, yLoc, size,size, 0, 360);
+		
+		if(!isSelected()) {
+			g.fillArc(xLoc, yLoc, size,size, 0, 360);;
+		}
 		
 		g.setColor(ColorUtil.BLACK);
 		g.drawString(Integer.toString(capacity),
@@ -110,7 +114,19 @@ public class EnergyStation extends FixedObject implements IDrawable{
 	@Override
 	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
 		// TODO Auto-generated method stub
-		return false;
+		int px = pPtrRelPrnt.getX();
+		int py = pPtrRelPrnt.getY();
+		
+		int xLoc = (int) (pCmpRelPrnt.getX() + getX());
+		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
+		
+		if ( (px >= xLoc) && (px <= xLoc+size) && (py >= yLoc) && (py <= yLoc+size) ) {
+			System.out.println("TRUE");
+			return true;
+		}else {
+			System.out.println("False");
+			return false;
+		}
 	}
 
 }

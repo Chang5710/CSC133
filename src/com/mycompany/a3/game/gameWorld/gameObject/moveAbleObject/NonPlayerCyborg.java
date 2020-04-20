@@ -27,7 +27,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		this.setDamageLevel(0);
 		this.setEnergyLevel(40);
 		this.setSize(50);
-		this.setMaxDamageLevel(80);
+		this.setMaxDamageLevel(160);
 		this.setMaxEnergyLevel(80);
 		this.setSteeringDirection(0);
 		this.targetBase=this.getLastBaseReached()+1;

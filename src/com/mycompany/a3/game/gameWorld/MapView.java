@@ -37,14 +37,12 @@ public class MapView extends Container implements Observer{
 		this.getAllStyles().setBorder(Border.createLineBorder(2));
 		
 		
-		ta = new TextArea();
-		ta.setEditable(false);
-		ta.getAllStyles().setBgTransparency(0);
+
 		MapView.mapViewHeight = this.getHeight();
 		MapView.mapViewWidth = this.getWidth();
 		setWidth(1000);
 		setHeight(1000);
-		this.add(CENTER,ta);
+
 	}
 	
 	public static int getMapViewHeight() { return mapViewHeight; }
@@ -88,22 +86,23 @@ public class MapView extends Container implements Observer{
 	@Override
 	public void pointerPressed(int x, int y) {
 		System.out.println("Clicked");
-//		x = x - getParent().getAbsoluteX();
-//		y = y - getParent().getAbsoluteY();
-//		Point pPtrRelPrnt = new Point(x,y);
-//		Point pCmpRelPrnt = new Point(getX() , getY());
-//		IIterator iter = gw.getGameObjects().getIterator();
-//		while(iter.hasNext()) {
-//			GameObject obj = iter.getNext();
-//			if(obj instanceof ISelectable) {
-//				if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
-//					((ISelectable)obj).setSelected(true);
-//				}else {
-//					//Not selected
-//				}
-//			}
-//			repaint();
-//		}
+		x = x - getParent().getAbsoluteX();
+		y = y - getParent().getAbsoluteY();
+		Point pPtrRelPrnt = new Point(x,y);
+		Point pCmpRelPrnt = new Point(getX() , getY());
+		IIterator iter = gw.getGameObjects().getIterator();
+		while(iter.hasNext()) {
+			GameObject obj = iter.getNext();
+			if(obj instanceof ISelectable) {
+				if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
+					((ISelectable)obj).setSelected(true);
+				}else {
+					//Not selected
+					((ISelectable)obj).setSelected(false);
+				}
+			}
+			repaint();
+		}
 	}
 
 
