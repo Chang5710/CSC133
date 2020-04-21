@@ -19,8 +19,6 @@ public class CommandHelpInfo extends Command{
 				+ "Brake Key: b \n"
 				+ "Left Turn key: l \n"
 				+ "Right Turn key: r \n"
-				+ "Collide with EnergyStation key: e \n"
-				+ "Collide with drone key: g \n"
-				+ "Tick key: t \n", "Ok","Cancel");
+				);
 	}
 }

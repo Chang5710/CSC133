@@ -131,7 +131,6 @@ public class Game extends Form implements Runnable{
 		 	cmdPause = new CommandPause(this);
 		 	PauseButton.setCommand(cmdPause);
 		 			
-
 		 	southContainer.add(PositionButton);
 		 	southContainer.add(PauseButton);
 		 	
