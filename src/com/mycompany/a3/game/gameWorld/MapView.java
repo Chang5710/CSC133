@@ -6,7 +6,6 @@ import java.util.Observer;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Container;
 import com.codename1.ui.Graphics;
-import com.codename1.ui.TextArea;
 import com.codename1.ui.geom.Point;
 import com.codename1.ui.geom.Point2D;
 import com.codename1.ui.layouts.BorderLayout;
@@ -20,7 +19,6 @@ public class MapView extends Container implements Observer{
 	static private int mapViewWidth;
 	private GameWorld gw = null;
 	static private Point mapViewOrigin;
-	private TextArea ta;
 	
 	/** 
 	 * Constructor 

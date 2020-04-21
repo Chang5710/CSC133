@@ -7,11 +7,8 @@ import com.mycompany.a3.game.gameWorld.GameWorld;
 
 public class CommandHelpInfo extends Command{
 	
-	private GameWorld gw;
-	
 	public CommandHelpInfo(GameWorld gw) {
 		super("Help");
-		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
@@ -19,6 +16,7 @@ public class CommandHelpInfo extends Command{
 				+ "Brake Key: b \n"
 				+ "Left Turn key: l \n"
 				+ "Right Turn key: r \n"
-				);
+				+ "ChangeStrategies key: c \n"
+				, "Ok","Cancel");
 	}
 }

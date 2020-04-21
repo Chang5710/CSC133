@@ -2,7 +2,6 @@ package com.mycompany.a3.game.command;
 
 import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.geom.Dimension;
 import com.mycompany.a3.game.gameWorld.GameWorld;
 import com.codename1.ui.Button;
 

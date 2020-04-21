@@ -101,6 +101,7 @@ public class Game extends Form implements Runnable{
 			ChangeStrategiesButton = makePretty(ChangeStrategiesButton);
 			cmdChangeStrategies = new CommandChangeStrategies(gw);
 			ChangeStrategiesButton.setCommand(cmdChangeStrategies);
+			addKeyListener('c' , cmdChangeStrategies);
 			
 			westContainer.add(EmptyButton);
 			westContainer.add(AccelerateButton);
@@ -130,6 +131,7 @@ public class Game extends Form implements Runnable{
 		 	PauseButton = makePretty(PauseButton);
 		 	cmdPause = new CommandPause(this);
 		 	PauseButton.setCommand(cmdPause);
+		 	//addKeyListener('p', cmdPause);
 		 			
 		 	southContainer.add(PositionButton);
 		 	southContainer.add(PauseButton);
