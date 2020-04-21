@@ -17,6 +17,6 @@ public class CommandHelpInfo extends Command{
 				+ "Left Turn key: l \n"
 				+ "Right Turn key: r \n"
 				+ "ChangeStrategies key: c \n"
-				, "Ok","Cancel");
+				+ "Pause key: s", "Ok","Cancel");
 	}
 }

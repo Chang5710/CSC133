@@ -131,7 +131,7 @@ public class Game extends Form implements Runnable{
 		 	PauseButton = makePretty(PauseButton);
 		 	cmdPause = new CommandPause(this);
 		 	PauseButton.setCommand(cmdPause);
-		 	//addKeyListener('p', cmdPause);
+		 	addKeyListener('s', cmdPause);
 		 			
 		 	southContainer.add(PositionButton);
 		 	southContainer.add(PauseButton);
