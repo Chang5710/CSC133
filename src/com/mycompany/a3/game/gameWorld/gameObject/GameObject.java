@@ -11,7 +11,7 @@ public abstract class GameObject implements ICollider {
 	private int color;
 	private int size;
 	private Point2D location;
-	final private int gameWorldWidth = 1000;
+	final private int gameWorldWidth = 1400;
 	final private int gameWorldHigh = 1000;
 	protected Vector<GameObject> OverCollided;
 	
@@ -23,7 +23,6 @@ public abstract class GameObject implements ICollider {
 		this.location = new Point2D(x,y);
 		this.color = Color;
 		OverCollided = new Vector<GameObject>();
-		System.out.println("OVerCollided initialized");
 		}
 	public boolean isThere(GameObject target) {
 		if(OverCollided.isEmpty()) return false;
@@ -100,10 +99,8 @@ public abstract class GameObject implements ICollider {
 		String colors = "[" + ColorUtil.red(this.color) + ","
 							+ ColorUtil.green(this.color) + ","
 							+ ColorUtil.blue(this.color) + "]";
-		return colors;
-				
+		return colors;	
 	}
-
 }
 
 

@@ -1,7 +1,5 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -35,7 +33,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setDamageLevel(0);
 		this.setEnergyLevel(40);
 		this.setSize(50);
-		this.setMaxDamageLevel(80);
+		this.setMaxDamageLevel(40);
 		this.setMaxEnergyLevel(40);
 		this.setSteeringDirection(0);
 	}
@@ -56,7 +54,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		this.setY(newY);
 		this.setSteeringDirection(90); //90=0 to the north
 		this.setSpeed(0);
-		this.setEnergyLevel(9999990);
+		this.setEnergyLevel(40);
 		this.setDamageLevel(0);
 		this.setColor(ColorUtil.BLUE);
 		this.setLife(getLife()-1);
@@ -103,7 +101,7 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		g.drawRect(x, y, this.getSize(), this.getSize());
 		g.fillRect(x, y, this.getSize(), this.getSize());
 		
-		//easy to see which direction heading
+		//set a Line in the middle easy to see which direction heading
 		double angle = Math.toRadians(90- getHeading());
 		double dx = 70*Math.cos(angle);
 		double dy = 70*Math.sin(angle);
@@ -128,7 +126,14 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		double distBetweenCentersSqr = (dx * dx + dy * dy);
 
 		int thisRadius= this.getSize() / 2;
-		int otherRadius= (otherObject).getSize() / 2;
+		
+		int otherRadius;
+		
+		if(otherObject instanceof Base) {
+			otherRadius= (otherObject).getSize();
+		}else {
+			otherRadius= (otherObject).getSize() / 2;
+		}
 
 		int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
 
@@ -150,10 +155,12 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 		}
 		else if(otherObject instanceof Base) {
 			int BaseID = ((Base) otherObject).getBaseID();
-			if(this.getLastBaseReached()+1 == BaseID) {
+			if(this.getLastBaseReached()+1 == BaseID){
 				int newBaseID = this.getLastBaseReached()+1;
-				System.out.println("PlayerCyborg reach to base " + newBaseID + "\n");
 				this.setLastBaseReached(newBaseID);
+				if(this.getLastBaseReached()+1 < 4){
+					System.out.println("PlayerCyborg reach to base " + newBaseID + "\n");
+				}
 			}else {
 				System.out.println("Please collide base in sequential!\n" + 
 						   "The next sequential is " + (this.getLastBaseReached()+1) + "\n");
@@ -171,6 +178,4 @@ public class PlayerCyborg extends Cyborg implements ISteerable, IDrawable{
 			}
 		}
 	}
-	
-
 }

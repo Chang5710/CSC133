@@ -8,7 +8,6 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BoxLayout;
 
-
 public class ScoreView extends Container implements Observer {
 
 	/**
@@ -25,8 +24,7 @@ public class ScoreView extends Container implements Observer {
 	 * Constructor 
 	 */
 	public ScoreView(GameWorld gw) {
-		
-		
+
 		//Set layout 
 		setLayout(new BoxLayout(BoxLayout.X_AXIS));
 		
@@ -53,15 +51,12 @@ public class ScoreView extends Container implements Observer {
 		//Damage Level
 		Label DamageLevelTextLabel = new Label("Player Damage Level:");
 		DamageLevelTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0, 0, 255));
-		DamageLevelLabel = new Label("    ");
+		DamageLevelLabel = new Label("");
 		
 		//Sound
 		Label SoundTextLabel = new Label("Sound:");
 		SoundTextLabel.getAllStyles().setFgColor(ColorUtil.rgb(0,0,255));
 		SoundLabel = new Label("");
-		
-		
-	
 		
 		//Add Component to container 
 		add(TimeTextLabel);
@@ -91,5 +86,4 @@ public class ScoreView extends Container implements Observer {
 		this.revalidate();
 		this.repaint();
 	}
-	
 }

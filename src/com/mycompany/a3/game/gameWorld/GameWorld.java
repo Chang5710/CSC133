@@ -1,10 +1,7 @@
 package com.mycompany.a3.game.gameWorld;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Display;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
@@ -25,7 +22,7 @@ import com.mycompany.a3.game.sound.Sound;
 public class GameWorld extends Observable{
 	
 	private static int gameHeight = 1000;
-	private static int gameWidth = 1000;
+	private static int gameWidth = 1500;
 	private int gameClock = 0;
 	private int numberOfDrone;
 	private int numberOfEnergyStation;
@@ -47,8 +44,7 @@ public class GameWorld extends Observable{
 	private Sound chargeSound;
 	private Sound explosionSound;
 	private boolean GamePause;
-	
-
+	private boolean Cheat = false;
 	
 	//setter and getter
 	public int getGameClock() {
@@ -87,16 +83,18 @@ public class GameWorld extends Observable{
 	public void init() {
 		gameObjects = new GameObjectCollection();
 		gameObjects.add(new Base(1,200,200));
-		gameObjects.add(new Base(2,800,200));
-		gameObjects.add(new Base(3,500,500));
-		gameObjects.add(new Base(4,800,800));
+		gameObjects.add(new Base(2,100,980));
+		gameObjects.add(new Base(3,800,200));
+		gameObjects.add(new Base(4,1300,900));
 		gameObjects.add(cyborg = PlayerCyborg.getInstance());
-//		gameObjects.add(cyborgNPC = new NonPlayerCyborg(400,200));
-//		cyborgNPC.setStrategy(new BaseStrategy());
+		gameObjects.add(cyborgNPC = new NonPlayerCyborg(400,200));
+		
+		cyborgNPC.setStrategy(new BaseStrategy());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(200,0));
 		cyborgNPC.setStrategy(new AttackStrategy());
 		gameObjects.add(cyborgNPC = new NonPlayerCyborg(0,200));
 		cyborgNPC.setStrategy(new AttackStrategy());
+		
 		this.numberOfDrone = 2;
 		for(int i =0;i<numberOfDrone;i++) {
 			gameObjects.add(new Drone());
@@ -106,8 +104,7 @@ public class GameWorld extends Observable{
 			gameObjects.add(new EnergyStation());
 		}
 		this.map();
-		
-		
+
 		bgm = new BGSound("background.wav");
 		crashSound = new Sound("crash.wav");
 		chargeSound = new Sound("charge.wav");
@@ -163,8 +160,7 @@ public class GameWorld extends Observable{
 			numberOfTurnLeft++;
 			numberOfTurnRight--;
 			System.out.println("turn left by 5 degree\n");
-		}
-		
+		}	
 	}
 	
 	//save number of time turn right and execute when gameClock increase
@@ -194,8 +190,7 @@ public class GameWorld extends Observable{
 			}else {
 				System.out.println("NPC Dead! \n");
 			}
-	    }
-			
+	    }	
 	}
 	
 	public void findCyborg() {
@@ -261,7 +256,8 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	public void setNewSpeed(Cyborg cyborgT){ //update speed after DamageLevel too high
+	//update speed after DamageLevel too high
+	public void setNewSpeed(Cyborg cyborgT){ 
 		double ratio = cyborgT.getDamageLevel() / cyborgT.getMaxDamageLevel();
 		if(ratio != 0) {
 		cyborgT.setSpeed((int)(cyborgT.getSpeed()*ratio)); //set Speed limit needs to be limited by cyborg's damage.
@@ -303,6 +299,11 @@ public class GameWorld extends Observable{
 			realTime += 1;
 			//check Energy
 			consumeEnergy(cyborg);
+		}
+		
+		if(Cheat == true) {
+			cyborg.setDamageLevel(0);
+			cyborg.setEnergyLevel(40);
 		}
 		
 		//check heading
@@ -398,8 +399,6 @@ public class GameWorld extends Observable{
 
 	}
 	
-
-
 	//if NPC's Energy running low add some more
 	public void checkNPCEnergy() {
 		IIterator iter = gameObjects.getIterator();
@@ -450,8 +449,6 @@ public class GameWorld extends Observable{
 		}
 	}
 	
-	
-	
 	//Posistion
 	public void ChangePosition() {
 		if(GamePause) {
@@ -472,17 +469,32 @@ public class GameWorld extends Observable{
 	public boolean getPauseGame() {
 		return GamePause;
 	}
-//	public void setPositionToggle(boolean flag) {
-//			positionToggle = flag;
-//	}
 	
 	public boolean getPositionToggle() {
 		return positionToggle;
 	}
 	
+	//reset selectable
+	public void clearSelectable() {
+		IIterator iter = gameObjects.getIterator();
+		while(iter.hasNext()) {
+			GameObject obj = iter.getNext();
+			if(obj instanceof ISelectable) {
+				((ISelectable) obj).setSelected(false);
+			}
+		}
+	}
+	
 	//Cheat Mod
 	public void CheatMod() {
-		
+		if(Cheat == false) {
+			Cheat = true;
+			cyborg.setColor(ColorUtil.BLUE);
+			System.out.println("CheatMod ON");
+		}else {
+			Cheat = false;
+			System.out.println("CheatMod OFF");
+		}
 	}
 }
  

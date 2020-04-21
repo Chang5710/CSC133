@@ -1,8 +1,6 @@
 package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 
 import java.util.Random;
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -19,7 +17,7 @@ public class EnergyStation extends FixedObject implements IDrawable{
 	public EnergyStation() {
 		super(ColorUtil.rgb(34, 139, 34));
 		Random rn = new Random();
-		this.capacity = rn.nextInt((40-30)+1)+30; //range between 30 and 40
+		this.capacity = rn.nextInt((40-10)+1)+10; //range between 10 and 40
 		this.size = (int) (this.capacity*3);
 		//setSize(this.capacity);
 	}
@@ -99,14 +97,14 @@ public class EnergyStation extends FixedObject implements IDrawable{
 			}
 	}
 
-
-
 	@Override
 	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
 		// TODO Auto-generated method stub
+		//point from screen origin by click by user
 		int px = pPtrRelPrnt.getX();
 		int py = pPtrRelPrnt.getY();
 		
+		//switch x and y location to screen origin to compare
 		int xLoc = (int) (pCmpRelPrnt.getX() + getX());
 		int yLoc = (int) (pCmpRelPrnt.getY() + getY());
 		
@@ -118,5 +116,4 @@ public class EnergyStation extends FixedObject implements IDrawable{
 			return false;
 		}
 	}
-
 }

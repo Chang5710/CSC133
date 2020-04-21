@@ -50,6 +50,5 @@ public class GameObjectCollection implements ICollection {
 			pos += 1;
 			return obj;
 		}
-		
 	}
 }

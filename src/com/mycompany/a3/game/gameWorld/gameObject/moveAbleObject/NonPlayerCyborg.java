@@ -1,7 +1,5 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -17,9 +15,6 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	private int targetBase;
 	private double SD;
 	
-
-	
-
 	public NonPlayerCyborg(double initialX, double initialY) {
 		super(ColorUtil.rgb(0, 191, 255), 0, 0, initialX, initialY); //Color,speed,heading(90 degree to the northward),xLocation,yLocation
 		this.setLife(3);
@@ -27,7 +22,7 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		this.setDamageLevel(0);
 		this.setEnergyLevel(40);
 		this.setSize(50);
-		this.setMaxDamageLevel(160);
+		this.setMaxDamageLevel(60);
 		this.setMaxEnergyLevel(80);
 		this.setSteeringDirection(0);
 		this.targetBase=this.getLastBaseReached()+1;
@@ -73,8 +68,6 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		return Strategy;
 	}
 	
-
-	
 	@Override
 	public void respawn(double newX,double newY) {
 		this.setX(newX);
@@ -99,18 +92,17 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	}
 
 	@Override
-	public void draw(Graphics g, Point pCmpRelPrnt) {
+	public void draw(Graphics g, Point pCmpRelPrnt) { 
 		g.setColor(this.getColor());
 		int x = (int)this.getX() + (int)pCmpRelPrnt.getX();
 		int y = (int)this.getY() + (int)pCmpRelPrnt.getY();
 		g.drawRect(x, y, this.getSize(), this.getSize(),3);
 		
 		// show NPC's Target Base
-		
 		if(curStrategy instanceof AttackStrategy) {
-			g.drawString(Integer.toString(getSpeed()), x, y);
+			g.drawString("p", x+5, y); //draw p if is AttackStrategy 
 		}else {
-			g.drawString(Integer.toString(getTargetBase()) , x ,y);
+			g.drawString(Integer.toString(getTargetBase()) , x ,y); //draw target bass if is BaseStrategy
 		}
 	}
 
@@ -130,7 +122,13 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	double distBetweenCentersSqr = (dx * dx + dy * dy);
 
 	int thisRadius= this.getSize() / 2;
-	int otherRadius= (otherObject).getSize() / 2;
+	int otherRadius;
+	
+	if(otherObject instanceof Base) {
+		otherRadius= (otherObject).getSize();
+	}else {
+		otherRadius= (otherObject).getSize() / 2;
+	}
 
 	int radiiSqr= (thisRadius * thisRadius + 2 * thisRadius * otherRadius + otherRadius * otherRadius);
 
@@ -144,25 +142,25 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
 		if(otherObject instanceof Drone) {
-			if(getDamageLevel()+2< getMaxDamageLevel()) {
+			if(getDamageLevel()+1< getMaxDamageLevel()) {
 				System.out.println("NPC collided with a Drone cause 2 damage\n");
-				this.setDamageLevel(this.getDamageLevel()+2);
+				this.setDamageLevel(this.getDamageLevel()+1);
 			}else {
 				this.setDamageLevel(80);
 			}
 		}
 		else if(otherObject instanceof PlayerCyborg) {
-			if(getDamageLevel()+4< getMaxDamageLevel()) {
-				System.out.println("NPC collided with PlayerCyborg cause 4 damage\n");
-				this.setDamageLevel(this.getDamageLevel()+4);
+			if(getDamageLevel()+2< getMaxDamageLevel()) {
+				System.out.println("NPC collided with PlayerCyborg cause 2 damage\n");
+				this.setDamageLevel(this.getDamageLevel()+2);
 			}else {
 				this.setDamageLevel(80);
 			}
 		}
 		else if(otherObject instanceof NonPlayerCyborg) {
-			if(getDamageLevel()+4< getMaxDamageLevel()) {
-				System.out.println("NPC collided with another NPC cause 4 damage\n");
-				this.setDamageLevel(this.getDamageLevel()+4);
+			if(getDamageLevel()+2< getMaxDamageLevel()) {
+				System.out.println("NPC collided with another NPC cause 2 damage\n");
+				this.setDamageLevel(this.getDamageLevel()+2);
 			}else {
 				this.setDamageLevel(80);
 			}
@@ -190,7 +188,4 @@ public class NonPlayerCyborg extends Cyborg implements IDrawable{
 		this.setSD(0);
 		this.setSteeringDirection(0);
 	}
-
-
-	
 }

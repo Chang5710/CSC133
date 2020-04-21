@@ -1,7 +1,5 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -70,7 +68,5 @@ public class Drone extends MoveableObject implements IDrawable{
 	@Override
 	public void handleCollision(GameObject otherObject) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

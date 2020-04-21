@@ -1,7 +1,5 @@
 package com.mycompany.a3.game.gameWorld.gameObject.fixedObject;
 
-import java.util.Vector;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -40,7 +38,7 @@ public class Base extends FixedObject implements IDrawable {
 		  g.setColor(this.getColor());
 		  int xLoc = (int)this.getLocation().getX() + pCmpRelPrnt.getX();
 		  int yLoc = (int)this.getLocation().getY() + pCmpRelPrnt.getY();
-		  int[] xPoints = { xLoc, (xLoc - 30), (xLoc + 30) };
+		  int[] xPoints = { (xLoc), (xLoc - 30), (xLoc + 30) };
 		  int[] yPoints = { (yLoc + 30), (yLoc - 30), (yLoc - 30)};
 		  int nPoints = 3;
 		  g.drawPolygon(xPoints, yPoints, nPoints);
@@ -54,7 +52,6 @@ public class Base extends FixedObject implements IDrawable {
 		  g.drawString(Integer.toString(baseID), 
 				  		(int)Math.round(getX()-10) + pCmpRelPrnt.getX(), 
 				  			(int)Math.round(getY()-30) + pCmpRelPrnt.getY());
-		  
 	}
 
 	@Override
@@ -88,7 +85,6 @@ public class Base extends FixedObject implements IDrawable {
 		// TODO Auto-generated method stub
 		
 	}
-
 
 	@Override
 	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {

@@ -1,9 +1,5 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
-import java.util.Vector;
-
-import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
-
 public abstract class Cyborg extends MoveableObject {
 	
 	private int life;
@@ -93,7 +89,4 @@ public abstract class Cyborg extends MoveableObject {
 	//respawn after run out of energy or the damageLevel is max
 	public void respawn(double newX,double newY) {
 	}
-	
 }
-
-

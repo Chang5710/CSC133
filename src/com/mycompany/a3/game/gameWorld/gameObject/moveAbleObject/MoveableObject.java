@@ -1,7 +1,6 @@
 package com.mycompany.a3.game.gameWorld.gameObject.moveAbleObject;
 
 import java.util.Random;
-
 import com.codename1.ui.geom.Point2D;
 import com.mycompany.a3.game.gameWorld.MapView;
 import com.mycompany.a3.game.gameWorld.gameObject.GameObject;
@@ -37,9 +36,6 @@ public abstract class MoveableObject extends GameObject{
 	}
 	
 	public void setSpeed(int x) {
-		if(this instanceof NonPlayerCyborg) {
-			System.out.println("");
-		}
 		this.speed = x;
 	}
 
@@ -64,15 +60,12 @@ public abstract class MoveableObject extends GameObject{
 		//Bounce off right wall 
 		if(orginX + newX + offset >=   MapView.getMapViewWidth() + orginX - border
 				&& (heading >= 0 && heading <= 180)) {
-			if(this instanceof NonPlayerCyborg) {
-				System.out.println("Happening");
-			}
 			if(heading == 0 || heading == 180) {
 				setHeading(270);
 			}else {
 				setHeading(360-heading);
 			}
-			System.out.println("Bounced off right wall");
+			//System.out.println("Bounced off right wall");
 			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
 	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
 		}
@@ -83,7 +76,7 @@ public abstract class MoveableObject extends GameObject{
 			}else {
 				setHeading(360-heading);
 			}
-			System.out.println("Bounded off left wall");
+			//System.out.println("Bounded off left wall");
 			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
 	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
 		}
@@ -97,9 +90,7 @@ public abstract class MoveableObject extends GameObject{
 			setHeading((360-heading+180)%360);
 			 newX = (float) (this.getX() + (float)Math.cos( Math.toRadians(90-this.heading)  )* speed);
 	 		 newY = (float) (this.getY() + (float)Math.sin( Math.toRadians(90-this.heading)  )* speed);	
-		}
-				
+		}	
 		this.setLocation(new Point2D(newX,newY));		
 	}
-
 }

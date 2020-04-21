@@ -23,10 +23,8 @@ public class BaseStrategy implements IStrategy {
 			if(obj instanceof Base && ((Base) obj).getBaseID() == npc.getTargetBase()) {
 				double dx = Math.abs(obj.getX() - npc.getX());
 				double dy = Math.abs(obj.getY() - npc.getY());
-				
 				double newSD; //because use integer to calculate angle off too much, I create another double SteeringDirection to calculate angle
 				int newSteeringDirection;
-				
 				
 				if(dx != 0 && dy != 0) {
 					newSteeringDirection = (int)MathUtil.floor(Math.toDegrees(MathUtil.atan(dy/dx)));
@@ -55,7 +53,6 @@ public class BaseStrategy implements IStrategy {
 						
 				}else if(npc.getY() < obj.getY()) {//BASE on top of NPC 
 					
-						
 					//Base on the right side 
 					if(obj.getX() > npc.getX()) {
 						newSD = 90-newSD;
@@ -83,12 +80,6 @@ public class BaseStrategy implements IStrategy {
 						newSteeringDirection = 0;
 					}
 				}
-//				}else { //NPC is 90 degree above Base or Base is 90 degree above NPC
-//					if(npc.getY()< obj.getY()) { //Base on top of NPC
-//						newSD = 180;
-//						newSteeringDirection = 180;
-//					}
-//				}
 				
 				//first time
 				if(lastSD == -999) {
@@ -110,7 +101,7 @@ public class BaseStrategy implements IStrategy {
 				//calculate the distance
 				double distance = Math.sqrt(dx*dx+dy*dy); 
 				
-				System.out.println("Distance: " + distance  + " Going to " + ((Base) obj).getBaseID() + "/" + npc.getTargetBase());
+				//System.out.println("Distance: " + distance  + " Going to " + ((Base) obj).getBaseID() + "/" + npc.getTargetBase());
 				
 				//when the distance between NPC and base is least then 60
 				if(distance <= 40) {
@@ -119,12 +110,8 @@ public class BaseStrategy implements IStrategy {
 				}else {
 					npc.setSpeed(2); //once NPC leave the Last Reached Base set full speed to next Base
 				}
-				
 				return;
 			}
 		}
 	}
-	
-
-
 }

@@ -4,7 +4,6 @@ import com.codename1.ui.geom.Point;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
-import com.codename1.ui.plaf.Border;
 import com.codename1.ui.util.UITimer;
 import com.mycompany.a3.game.command.CommandAboutInfo;
 import com.mycompany.a3.game.command.CommandAccelerate;
@@ -32,7 +31,6 @@ public class Game extends Form implements Runnable{
 	private GameWorld gw;
 	private MapView mv;
 	private ScoreView sv;
-	
 	private boolean pause = false;
 	
 	//set up Command Patterns
@@ -48,6 +46,7 @@ public class Game extends Form implements Runnable{
 	private CommandPosition cmdPosition;
 	private CommandPause cmdPause;
 	private CommandCheatMod cmdCheat;
+	
 	Button EmptyButton;
 	Button AccelerateButton;
 	Button LeftButton;
@@ -60,7 +59,6 @@ public class Game extends Form implements Runnable{
  	Button CheatButton;
  	Toolbar titleBar;
 	
-	
 	private UITimer timer;
 	
 	public Game() {
@@ -72,10 +70,6 @@ public class Game extends Form implements Runnable{
 		
 		gw.addObserver(mv); //register observer 
 		gw.addObserver(sv); //register observer 
-		
-		//cmdAccelerate = new CommandAccelerate(gw);
-		
-		
 		
 		//Game Form 
 		setLayout(new BorderLayout());
@@ -122,7 +116,7 @@ public class Game extends Form implements Runnable{
 		 /**
 		  * South Container
 		  */
-//		 Container southContainer = new Container(new BoxLayout(BoxLayout.X_AXIS));
+
 			 Container southContainer = new Container(new FlowLayout(CENTER)); 
 		 	
 		 	PositionButton = new Button();
@@ -130,6 +124,7 @@ public class Game extends Form implements Runnable{
 		 	cmdPosition = new CommandPosition(gw);
 		 	PositionButton.setCommand(cmdPosition);
 		 	PositionButton.setAutoSizeMode(true);
+		 	PositionButton.setEnabled(false);
 		 	
 		 	PauseButton = new Button();
 		 	PauseButton = makePretty(PauseButton);
@@ -139,10 +134,6 @@ public class Game extends Form implements Runnable{
 
 		 	southContainer.add(PositionButton);
 		 	southContainer.add(PauseButton);
-		 	
-//		 	Container wrapper = new Container(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
-//		 	wrapper.getAllStyles().setBorder(Border.createLineBorder(1));
-//		 	wrapper.add(CENTER,southContainer);
 		 	
 		 	add(BorderLayout.SOUTH,southContainer);
 		 	
@@ -169,8 +160,7 @@ public class Game extends Form implements Runnable{
 		 	eastContainer.add(EmptyButton); //make it looks more close to the simple GUI
 		 	eastContainer.add(BrakeButton);
 		 	eastContainer.add(RightButton);
-		 	
-		 	
+		 	 	
 		 	add(BorderLayout.EAST,eastContainer);
 		 	
 		 /**
@@ -189,6 +179,7 @@ public class Game extends Form implements Runnable{
 		 titleBar.addCommandToSideMenu(cmdAccelerate);
 		
 		 SoundCB = new CheckBox();
+		 SoundCB.setSelected(true);
 		 cmdSound = new CommandSound(gw);
 		 SoundCB.setCommand(cmdSound);
 		 SoundCB.getAllStyles().setBgTransparency(255);
@@ -231,14 +222,12 @@ public class Game extends Form implements Runnable{
 		System.out.println("MapView size : " + mv.getWidth() + "," + mv.getHeight());
 		System.out.println("MapView Origin : " + mv.getX() + "," + mv.getY());	
 
-		
-
 		mv.setMapViewOrigin(new Point(mv.getX() , mv.getY()));
 		MapView.setMapViewWidth(mv.getWidth());
 		MapView.setMapViewHeight(mv.getHeight());	
 	}
 	
-
+	//set Styles for all the button
 	private Button makePretty(Button obj) {
 		obj.getAllStyles().setBgTransparency(255);
 		obj.getUnselectedStyle().setBgColor(ColorUtil.BLUE);
@@ -271,14 +260,13 @@ public class Game extends Form implements Runnable{
 		 	PositionButton.setEnabled(false);
 		 	BrakeButton.setEnabled(false);
 		 	SoundCB.setEnabled(false);
-		 	CheatButton.setEnabled(false);
 		 	PositionButton.setEnabled(true);
 		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(false);
-		 	titleBar.findCommandComponent(cmdCheat).setEnabled(false);
 			
 			// Let gameworld know game is paused 
 		 	gw.setPauseGame(true);
 		 	PositionButton.setText("Position : OFF");
+		 	PauseButton.setText("Play");
 		 	this.revalidate();
 		 	
 		} else {
@@ -297,19 +285,17 @@ public class Game extends Form implements Runnable{
 			ChangeStrategiesButton.setEnabled(true);
 		 	BrakeButton.setEnabled(true);
 		 	SoundCB.setEnabled(true);
-		 	CheatButton.setEnabled(true);
 		 	PositionButton.setEnabled(false);
 		 	titleBar.findCommandComponent(cmdAccelerate).setEnabled(true);
-		 	titleBar.findCommandComponent(cmdCheat).setEnabled(true);
 		 	
 		 	//Restore position command label 
-		 	
 		 	PositionButton.setText("Position");
+		 	PauseButton.setText("Pause");
 		 	gw.setPauseGame(false);
-		 	this.revalidate();
+		 	gw.clearSelectable();
+		 	this.revalidate(); //reside fill all the text
 		}
 	}
-
 
 	@Override
 	public void run() {

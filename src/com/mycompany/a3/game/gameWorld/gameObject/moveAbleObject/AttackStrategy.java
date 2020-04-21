@@ -49,27 +49,20 @@ public class AttackStrategy implements IStrategy{
 						newSD = 180;
 						newSteeringDirection = 180;
 					}
-					
-					
 				}else if(npc.getY() < obj.getY()) {//Player on top of NPC 
-					
-						
 					//Player on the right side 
 					if(obj.getX() > npc.getX()) {
 						newSD = 90-newSD;
 						newSteeringDirection = 90 - newSteeringDirection; 
 					}else if(obj.getX() < npc.getX()) {  //Player on left side
-						
 						newSD = -1*(90 - newSD);
 						newSteeringDirection = -1*(90 - newSteeringDirection);
-						
 					}else {
 						newSD = 0;
 						newSteeringDirection = 0;
 					}
 				}else {
 					//SAME LEVEL 
-					
 					//Player on right side 
 					if(obj.getX() > npc.getX()) {
 						newSD = 90;
@@ -103,7 +96,7 @@ public class AttackStrategy implements IStrategy{
 				//calculate the distance
 				double distance = Math.sqrt(dx*dx+dy*dy); 
 				
-				//when the distance between NPC and PlayerCyborg is least then 40
+				//when the distance between NPC and PlayerCyborg is least then 50
 				if(distance <= 50 ) {
 					//double speed = Math.sqrt(distance/50); //NPC will keep update speed make sure it run pass the base
 					npc.setSpeed(1);
@@ -112,14 +105,8 @@ public class AttackStrategy implements IStrategy{
 					int speed= rn.nextInt((5-3)+1)+3;
 					npc.setSpeed(speed); //set speed to Full speed
 				}
-				
 				return;
-				
 			}
 		}
-		
 	}
-
-
-
 }

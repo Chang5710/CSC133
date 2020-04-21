@@ -17,7 +17,6 @@ public abstract class FixedObject extends GameObject implements ISelectable{
 	//update color and location for Base
 	public FixedObject(int Color, double x, double y) {
 		super(Color, x, y);
-		
 	}
 	
 	@Override
@@ -25,7 +24,6 @@ public abstract class FixedObject extends GameObject implements ISelectable{
 		super.setLocation(location);
 	}
 
-	
 	public boolean isSelected() {
 		return isSelected;
 	}

@@ -26,9 +26,7 @@ public class MapView extends Container implements Observer{
 	 * Constructor 
 	 */
 	public MapView(GameWorld gw) {
-		
 		this.gw = gw;
-		
 		MapView.mapViewHeight = this.getHeight();
 		MapView.mapViewWidth = this.getWidth();
 		
@@ -36,8 +34,6 @@ public class MapView extends Container implements Observer{
 		this.setLayout(new BorderLayout());
 		this.getAllStyles().setFgColor(ColorUtil.BLUE);
 		this.getAllStyles().setBorder(Border.createLineBorder(2));
-		
-		
 
 		MapView.mapViewHeight = this.getHeight();
 		MapView.mapViewWidth = this.getWidth();
@@ -56,17 +52,6 @@ public class MapView extends Container implements Observer{
 	
 	@Override
 	public void update(Observable observable, Object data) {
-		
-//		GameWorld gw = (GameWorld)observable;
-//		gw.map();
-//		IIterator iter = gw.getGameObjects().getIterator();
-//		String output = "";
-//		while(iter.hasNext()) {
-//			output = output + iter.getNext().toString()+"\n";
-//		}
-//		ta.setText(output);
-//		this.repaint();
-		
 		this.gw = (GameWorld) data;
 		this.repaint();
 	}
@@ -74,6 +59,8 @@ public class MapView extends Container implements Observer{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		
+		//pCmpRelPrnt is the start point of MapView
 		Point pCmpRelPrnt = new Point(this.getX(), this.getY());
 		IIterator itr = gw.getGameObjects().getIterator();
 		while(itr.hasNext()) {
@@ -128,6 +115,7 @@ public class MapView extends Container implements Observer{
 			while(iter.hasNext()) {
 				GameObject obj = iter.getNext();
 				if(obj instanceof ISelectable) {
+					//pPtrRelPrnt is screen origin
 					if(((ISelectable)obj).contains(pPtrRelPrnt, pCmpRelPrnt)) {
 						((ISelectable)obj).setSelected(true);
 						System.out.println("Object Selected");
@@ -140,6 +128,4 @@ public class MapView extends Container implements Observer{
 			}
 		}
 	}
-
-
 }

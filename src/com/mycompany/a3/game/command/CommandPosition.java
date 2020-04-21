@@ -19,17 +19,12 @@ public class CommandPosition extends Command{
 		if(gw.getPauseGame()) {
 			if(gw.getPositionToggle()) {
 				this.setCommandName("Position : ON ");
-				((Button) e.getComponent()).setCommand(this);
-				((Button) e.getComponent()).setSize(((Button) e.getComponent()).getPreferredSize());
-				e.getComponent().getParent().revalidate();
-				//((Button) e.getComponent()).setText("ON");
 			}else {
 				this.setCommandName("Position : OFF ");
-				((Button) e.getComponent()).setCommand(this);
-				((Button) e.getComponent()).setSize(((Button) e.getComponent()).getPreferredSize());
-				e.getComponent().getParent().revalidate();
-				//((Button) e.getComponent()).setText("OFF");
 			}
+			((Button) e.getComponent()).setCommand(this);
+			((Button) e.getComponent()).setSize(((Button) e.getComponent()).getPreferredSize());
+			e.getComponent().getParent().revalidate();
 		}
 	}
 	
